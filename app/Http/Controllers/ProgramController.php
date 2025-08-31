@@ -21,13 +21,12 @@ class ProgramController extends Controller
     public function store(Request $request)
     {
         FakeProgramRepository::create([
-            'Name' => $request->input('name'),
-            'Description' => $request->input('description'),
-            'NationalAlignment' => $request->input('nationalAlignment'),
-            'FocusAreas' => array_map('trim', explode(',', $request->input('focusAreas'))),
-            'Phases' => array_map('trim', explode(',', $request->input('phases'))),
-        ]);
-        return redirect()->route('programs.index');
+    'Name' => $request->input('Name'),
+    'Description' => $request->input('Description'),
+    'NationalAlignment' => $request->input('NationalAlignment'),
+    'FocusAreas' => array_map('trim', explode(',', $request->input('FocusAreas'))),
+    'Phases' => array_map('trim', explode(',', $request->input('Phases'))),
+]);
     }
 
     public function show($id)
