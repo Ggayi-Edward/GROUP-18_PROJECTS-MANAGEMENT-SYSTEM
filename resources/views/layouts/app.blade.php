@@ -89,9 +89,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="main-footer text-center" style="background: linear-gradient(90deg, #1e2936 0%, #2d4a5c 100%); color: #b8c5d1;">
-        @yield('footer', '<strong>Projects Management System</strong> &copy; ' . date('Y'))
-    </footer>
+    
 </div>
 
 <!-- AdminLTE JS (optional, for components like sidebar toggle) -->
