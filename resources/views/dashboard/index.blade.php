@@ -80,5 +80,23 @@
             </a>
         </div>
     </div>
+
+    <!-- Facilities Card -->
+    <div class="col-lg-3 col-6">
+        <div class="card card-dashboard" style="background: linear-gradient(135deg, var(--accent-info) 0%, #16a085 100%) !important; color: var(--text-white);">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3>{{ count(\App\Data\FakeFacilityRepository::all()) }}</h3>
+                    <p>Facilities</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-building fa-3x"></i>
+                </div>
+            </div>
+            <a href="{{ route('facilities.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Facilities <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
 </div>
 @endsection

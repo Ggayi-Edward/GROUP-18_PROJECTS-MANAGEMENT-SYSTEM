@@ -8,7 +8,7 @@
     --navbar-bg: #22303f;             /* Dark but distinct navbar */
     
     --background-main: #f0f4f8;       /* Soft off-white background */
-    --background-card: #e6ebf1;       /* Subtle card background */
+     /*--background-card: #e6ebf1;        /* Subtle card background */
     
     --text-primary: #1f2d3d;          /* Dark text for readability */
     --text-secondary: #506475;        /* Medium gray for secondary text */
@@ -19,6 +19,7 @@
     --accent-success: #27ae60;
     --accent-warning: #f39c12;
     --accent-danger: #e74c3c;
+    --accent-info:#16a085;
     
     --border-light: #d9e2ec;
     --shadow-subtle: rgba(45, 74, 92, 0.08);
