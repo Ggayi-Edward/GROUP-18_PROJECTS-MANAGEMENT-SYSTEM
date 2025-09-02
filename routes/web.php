@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\FacilityController;
-use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ParticipantController;
+use App\Http\Controllers\ServiceController;
+
 
 // Dashboard (index page)
 Route::get('/', function () {
