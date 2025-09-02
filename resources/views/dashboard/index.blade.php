@@ -32,15 +32,15 @@
         <div class="card card-dashboard" style="background: linear-gradient(135deg, var(--accent-success) 0%, #219a52 100%); color: var(--text-white);">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <h3>0</h3>
+                    <h3>{{ count(\App\Data\FakeProjectRepository::all()) }}</h3>
                     <p>Projects</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-tasks fa-3x"></i>
                 </div>
             </div>
-            <a href="#" class="card-footer text-white text-decoration-none">
-                More info <i class="fas fa-arrow-circle-right"></i>
+            <a href="{{ route('projects.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Projects <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
@@ -95,6 +95,24 @@
             </div>
             <a href="{{ route('facilities.index') }}" class="card-footer text-white text-decoration-none">
                 Manage Facilities <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Services Card -->
+    <div class="col-lg-3 col-6">
+        <div class="card card-dashboard" style="background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); color: var(--text-white);">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3>{{ count(\App\Data\FakeServiceRepository::all()) }}</h3>
+                    <p>Services</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-cogs fa-3x"></i>
+                </div>
+            </div>
+            <a href="{{ route('services.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Services <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
