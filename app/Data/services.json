@@ -9,17 +9,6 @@
         ],
         "ServiceId": 1
     },
-    "2": {
-        "Name": "Nabagesera",
-        "Description": "Very",
-        "Category": "BN",
-        "DeliveryMode": "dfg",
-        "TargetGroups": [
-            "K N",
-            "KF"
-        ],
-        "ServiceId": 2
-    },
     "3": {
         "Name": "vvvvv",
         "Description": "eeeeeeeeee",
@@ -29,5 +18,15 @@
             "vikuhr"
         ],
         "ServiceId": 3
+    },
+    "4": {
+        "Name": "sheila",
+        "Description": "madrine",
+        "Category": "amdy",
+        "DeliveryMode": "jkjsd",
+        "TargetGroups": [
+            "dcdui"
+        ],
+        "ServiceId": 4
     }
 }
