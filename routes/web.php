@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ProjectController;
+
 
 // Dashboard (index page)
 Route::get('/', function () {
@@ -18,3 +20,8 @@ Route::resource('facilities', FacilityController::class);
 
 // Services CRUD
 Route::resource('services', ServiceController::class);
+
+// Projects CRUD
+Route::resource('projects', ProjectController::class);
+
+

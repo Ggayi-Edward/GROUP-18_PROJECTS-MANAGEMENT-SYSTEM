@@ -32,15 +32,15 @@
         <div class="card card-dashboard" style="background: linear-gradient(135deg, var(--accent-success) 0%, #219a52 100%); color: var(--text-white);">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <h3>0</h3>
+                    <h3>{{ count(\App\Data\FakeProjectRepository::all()) }}</h3>
                     <p>Projects</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-tasks fa-3x"></i>
                 </div>
             </div>
-            <a href="#" class="card-footer text-white text-decoration-none">
-                More info <i class="fas fa-arrow-circle-right"></i>
+            <a href="{{ route('projects.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Projects <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>

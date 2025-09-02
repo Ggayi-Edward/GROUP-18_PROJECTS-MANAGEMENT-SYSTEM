@@ -32,52 +32,62 @@
         </ul>
     </nav>
 
-    <!-- Sidebar -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-0" style="background: linear-gradient(180deg, #1e2936 0%, #243440 100%);">
-        <a href="{{ route('home') }}" class="brand-link text-center mb-3">
-            <i class="fas fa-project-diagram brand-image"></i>
-            <span class="brand-text font-weight-light ml-2">PMS</span>
-        </a>
-        <div class="sidebar">
-            @yield('sidebar-user')
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('home') }}" class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    
-                    <!-- Programs -->
-                    <li class="nav-item">
-                        <a href="{{ route('programs.index') }}" class="nav-link {{ Request::routeIs('programs.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-project-diagram"></i>
-                            <p>Manage Programs</p>
-                        </a>
-                    </li>
+<!-- Sidebar -->
+<aside class="main-sidebar sidebar-dark-primary elevation-0" style="background: linear-gradient(180deg, #1e2936 0%, #243440 100%);">
+    <a href="{{ route('home') }}" class="brand-link text-center mb-3">
+        <i class="fas fa-project-diagram brand-image"></i>
+        <span class="brand-text font-weight-light ml-2">PMS</span>
+    </a>
+    <div class="sidebar">
+        @yield('sidebar-user')
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview">
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
 
-                    <!-- Facilities -->
-                    <li class="nav-item">
-                        <a href="{{ route('facilities.index') }}" class="nav-link {{ Request::routeIs('facilities.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-building"></i>
-                            <p>Manage Facilities</p>
-                        </a>
-                    </li>
+                <!-- Programs -->
+                <li class="nav-item">
+                    <a href="{{ route('programs.index') }}" class="nav-link {{ Request::routeIs('programs.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-project-diagram"></i>
+                        <p>Manage Programs</p>
+                    </a>
+                </li>
 
-                    <!-- Services -->
-                    <li class="nav-item">
-                        <a href="{{ route('services.index') }}" class="nav-link {{ Request::routeIs('services.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-cogs"></i>
-                            <p>Manage Services</p>
-                        </a>
-                    </li>
+                <!-- Projects -->
+                <li class="nav-item">
+                    <a href="{{ route('projects.index') }}" class="nav-link {{ Request::routeIs('projects.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Manage Projects</p>
+                    </a>
+                </li>
 
-                    @yield('sidebar-menu')
-                </ul>
-            </nav>
-        </div>
-    </aside>
+                <!-- Facilities -->
+                <li class="nav-item">
+                    <a href="{{ route('facilities.index') }}" class="nav-link {{ Request::routeIs('facilities.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-building"></i>
+                        <p>Manage Facilities</p>
+                    </a>
+                </li>
+
+                <!-- Services -->
+                <li class="nav-item">
+                    <a href="{{ route('services.index') }}" class="nav-link {{ Request::routeIs('services.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>Manage Services</p>
+                    </a>
+                </li>
+
+                @yield('sidebar-menu')
+            </ul>
+        </nav>
+    </div>
+</aside>
+
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
