@@ -1,13 +1,13 @@
 {
     "2": {
-        "Name": "BNNN  MM",
-        "Description": "HHHJ",
-        "NationalAlignment": "GTGG",
+        "Name": null,
+        "Description": null,
+        "NationalAlignment": null,
         "FocusAreas": [
-            "HHH"
+            ""
         ],
         "Phases": [
-            "BNN"
+            ""
         ],
         "ProgramId": 2
     }
