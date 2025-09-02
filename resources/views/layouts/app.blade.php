@@ -48,12 +48,31 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
+                    
+                    <!-- Programs -->
                     <li class="nav-item">
                         <a href="{{ route('programs.index') }}" class="nav-link {{ Request::routeIs('programs.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-project-diagram"></i>
                             <p>Manage Programs</p>
                         </a>
                     </li>
+
+                    <!-- Facilities -->
+                    <li class="nav-item">
+                        <a href="{{ route('facilities.index') }}" class="nav-link {{ Request::routeIs('facilities.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-building"></i>
+                            <p>Manage Facilities</p>
+                        </a>
+                    </li>
+
+                    <!-- Services -->
+                    <li class="nav-item">
+                        <a href="{{ route('services.index') }}" class="nav-link {{ Request::routeIs('services.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>Manage Services</p>
+                        </a>
+                    </li>
+
                     @yield('sidebar-menu')
                 </ul>
             </nav>

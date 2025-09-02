@@ -98,5 +98,23 @@
             </a>
         </div>
     </div>
+
+    <!-- Services Card -->
+    <div class="col-lg-3 col-6">
+        <div class="card card-dashboard" style="background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%); color: var(--text-white);">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3>{{ count(\App\Data\FakeServiceRepository::all()) }}</h3>
+                    <p>Services</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-cogs fa-3x"></i>
+                </div>
+            </div>
+            <a href="{{ route('services.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Services <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
 </div>
 @endsection
