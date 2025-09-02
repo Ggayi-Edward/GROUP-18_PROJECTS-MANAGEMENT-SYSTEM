@@ -34,15 +34,32 @@ class FakeServiceRepository
         return isset($services[$id]) ? Service::fromArray($services[$id]) : null;
     }
 
-    public static function create(array $data): Service
-    {
-        $services = self::load();
-        $id = empty($services) ? 1 : max(array_keys($services)) + 1;
-        $data['ServiceId'] = $id;
-        $services[$id] = $data;
-        self::save($services);
-        return Service::fromArray($data);
+   public static function create(array $data): Service
+{
+    $services = self::load();
+
+    // Find the smallest unused ID
+    $existingIds = array_keys($services);
+    sort($existingIds); // make sure they are in order
+
+    $id = 1;
+    foreach ($existingIds as $existingId) {
+        if ($existingId == $id) {
+            $id++; // ID is taken, move to the next
+        } else {
+            break; // Found a gap
+        }
     }
+
+    $data['ServiceId'] = $id;
+    $services[$id] = $data;
+
+    // Sort services by ServiceId so the array is always ordered
+    ksort($services);
+
+    self::save($services);
+    return Service::fromArray($data);
+}
 
     public static function update($id, array $data): ?Service
     {

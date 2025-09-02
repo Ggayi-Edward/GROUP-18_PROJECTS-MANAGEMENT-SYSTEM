@@ -1,0 +1,33 @@
+{
+    "1": {
+        "Name": "je",
+        "Description": "fef",
+        "Category": "dfvr",
+        "DeliveryMode": "dfg",
+        "TargetGroups": [
+            "fgg"
+        ],
+        "ServiceId": 1
+    },
+    "2": {
+        "Name": "Nabagesera",
+        "Description": "Very",
+        "Category": "BN",
+        "DeliveryMode": "dfg",
+        "TargetGroups": [
+            "K N",
+            "KF"
+        ],
+        "ServiceId": 2
+    },
+    "3": {
+        "Name": "vvvvv",
+        "Description": "eeeeeeeeee",
+        "Category": "vfd",
+        "DeliveryMode": "eijorj",
+        "TargetGroups": [
+            "vikuhr"
+        ],
+        "ServiceId": 3
+    }
+}
