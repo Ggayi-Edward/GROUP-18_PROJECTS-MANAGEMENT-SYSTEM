@@ -18,7 +18,7 @@
         <p><strong>Capabilities:</strong> {{ implode(', ', $facility->Capabilities) }}</p>
         <p><strong>Description:</strong> {{ $facility->Description }}</p>
     </div>
-    <div class="card-footer">
+    <!-- <div class="card-footer">
         <a href="{{ route('facilities.edit', $facility->FacilityId) }}" class="btn btn-warning btn-sm">
             <i class="fas fa-edit"></i> Edit
         </a>
@@ -31,6 +31,6 @@
                 <i class="fas fa-trash"></i> Delete
             </button>
         </form>
-    </div>
+    </div>-->
 </div>
 @endsection
