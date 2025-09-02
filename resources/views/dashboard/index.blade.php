@@ -57,7 +57,7 @@
                     <i class="fas fa-users fa-3x"></i>
                 </div>
             </div>
-            <a href="#" class="card-footer text-white text-decoration-none">
+            <a href="{{ route('participants.index') }}" class="card-footer text-white text-decoration-none">
                 More info <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
