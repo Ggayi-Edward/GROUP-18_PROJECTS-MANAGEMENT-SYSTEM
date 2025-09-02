@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\EquipmentController;
 
 // Dashboard (index page)
 Route::get('/', function () {
@@ -24,3 +25,4 @@ Route::resource('projects', ProjectController::class);
 
 // Routes for managing Participants (Create, Read, Update, Delete)
 Route::resource('participants', ParticipantController::class);
+Route::resource('equipment', EquipmentController::class);

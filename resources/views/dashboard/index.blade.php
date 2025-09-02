@@ -45,42 +45,6 @@
         </div>
     </div>
 
-    <!-- Participants Card -->
-    <div class="col-lg-3 col-6">
-        <div class="card card-dashboard" style="background: linear-gradient(135deg, var(--accent-warning) 0%, #e67e22 100%); color: var(--text-white);">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div>
-                    <h3>0</h3>
-                    <p>Participants</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-users fa-3x"></i>
-                </div>
-            </div>
-            <a href="{{ route('participants.index') }}" class="card-footer text-white text-decoration-none">
-                More info <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
-
-    <!-- Outcomes Card -->
-    <div class="col-lg-3 col-6">
-        <div class="card card-dashboard" style="background: linear-gradient(135deg, var(--accent-danger) 0%, #c0392b 100%); color: var(--text-white);">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div>
-                    <h3>0</h3>
-                    <p>Outcomes</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-chart-line fa-3x"></i>
-                </div>
-            </div>
-            <a href="#" class="card-footer text-white text-decoration-none">
-                More info <i class="fas fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
-
     <!-- Facilities Card -->
     <div class="col-lg-3 col-6">
         <div class="card card-dashboard" style="background: linear-gradient(135deg, var(--accent-info) 0%, #16a085 100%) !important; color: var(--text-white);">
@@ -113,6 +77,24 @@
             </div>
             <a href="{{ route('services.index') }}" class="card-footer text-white text-decoration-none">
                 Manage Services <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Equipment Card -->
+    <div class="col-lg-3 col-6">
+        <div class="card card-dashboard" style="background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%); color: var(--text-white);">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3>{{ count(\App\Data\FakeEquipmentRepository::all()) }}</h3>
+                    <p>Equipment</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-tools fa-3x"></i>
+                </div>
+            </div>
+            <a href="{{ route('equipment.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Equipment <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
