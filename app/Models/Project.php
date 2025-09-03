@@ -9,8 +9,9 @@ class Project
     public $Description;
     public $StartDate;
     public $EndDate;
-    public $ProgramId;   // FK to Program
-    public $FacilityId;  // FK to Facility
+    public $Status;
+    public $ProgramId;
+    public $FacilityId;
     public $Participants = [];
     public $Outcomes = [];
 
@@ -22,6 +23,7 @@ class Project
         $project->Description  = $data['Description'] ?? '';
         $project->StartDate    = $data['StartDate'] ?? null;
         $project->EndDate      = $data['EndDate'] ?? null;
+        $project->Status       = $data['Status'] ?? 'Planned';
         $project->ProgramId    = $data['ProgramId'] ?? null;
         $project->FacilityId   = $data['FacilityId'] ?? null;
         $project->Participants = $data['Participants'] ?? [];
@@ -37,6 +39,7 @@ class Project
             'Description'  => $this->Description,
             'StartDate'    => $this->StartDate,
             'EndDate'      => $this->EndDate,
+            'Status'       => $this->Status,
             'ProgramId'    => $this->ProgramId,
             'FacilityId'   => $this->FacilityId,
             'Participants' => $this->Participants,

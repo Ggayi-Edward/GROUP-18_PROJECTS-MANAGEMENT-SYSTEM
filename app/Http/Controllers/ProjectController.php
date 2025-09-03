@@ -12,6 +12,18 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = FakeProjectRepository::all();
+
+        // Attach Program and Facility objects for easy use in views
+        foreach ($projects as $project) {
+            $project->Program = $project->ProgramId
+                ? FakeProgramRepository::find($project->ProgramId)
+                : null;
+
+            $project->Facility = $project->FacilityId
+                ? FakeFacilityRepository::find($project->FacilityId)
+                : null;
+        }
+
         return view('projects.index', compact('projects'));
     }
 
@@ -32,30 +44,44 @@ class ProjectController extends Controller
             'Status'       => $request->input('status'),
             'ProgramId'    => $request->input('programId'),
             'FacilityId'   => $request->input('facilityId'),
-            'Participants' => array_filter(array_map('trim', explode(',', $request->input('participants', '')))),
-            'Outcomes'     => array_filter(array_map('trim', explode(',', $request->input('outcomes', '')))),
+            'Participants' => $request->filled('participants')
+                ? array_map('trim', explode(',', $request->input('participants')))
+                : [],
+            'Outcomes'     => $request->filled('outcomes')
+                ? array_map('trim', explode(',', $request->input('outcomes')))
+                : [],
         ]);
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')
+                         ->with('success', 'Project created successfully.');
     }
 
     public function show($id)
     {
-        $project   = FakeProjectRepository::find($id);
-        $program   = $project && $project->ProgramId 
-                        ? FakeProgramRepository::find($project->ProgramId) 
-                        : null;
-        $facility  = $project && $project->FacilityId 
-                        ? FakeFacilityRepository::find($project->FacilityId) 
-                        : null;
+        $project  = FakeProjectRepository::find($id);
+        if (!$project) {
+            abort(404, 'Project not found');
+        }
+
+        $program  = $project->ProgramId
+            ? FakeProgramRepository::find($project->ProgramId)
+            : null;
+
+        $facility = $project->FacilityId
+            ? FakeFacilityRepository::find($project->FacilityId)
+            : null;
 
         return view('projects.show', compact('project', 'program', 'facility'));
     }
 
     public function edit($id)
     {
-        $project    = FakeProjectRepository::find($id);
-        $programs   = FakeProgramRepository::all();
+        $project = FakeProjectRepository::find($id);
+        if (!$project) {
+            abort(404, 'Project not found');
+        }
+
+        $programs = FakeProgramRepository::all();
         $facilities = FakeFacilityRepository::all();
 
         return view('projects.edit', compact('project', 'programs', 'facilities'));
@@ -71,16 +97,22 @@ class ProjectController extends Controller
             'Status'       => $request->input('status'),
             'ProgramId'    => $request->input('programId'),
             'FacilityId'   => $request->input('facilityId'),
-            'Participants' => array_filter(array_map('trim', explode(',', $request->input('participants', '')))),
-            'Outcomes'     => array_filter(array_map('trim', explode(',', $request->input('outcomes', '')))),
+            'Participants' => $request->filled('participants')
+                ? array_map('trim', explode(',', $request->input('participants')))
+                : [],
+            'Outcomes'     => $request->filled('outcomes')
+                ? array_map('trim', explode(',', $request->input('outcomes')))
+                : [],
         ]);
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')
+                         ->with('success', 'Project updated successfully.');
     }
 
     public function destroy($id)
     {
         FakeProjectRepository::delete($id);
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')
+                         ->with('success', 'Project deleted successfully.');
     }
 }
