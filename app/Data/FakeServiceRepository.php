@@ -42,6 +42,7 @@ class FakeServiceRepository
         $services[$id] = $data;
         self::save($services);
         return Service::fromArray($data);
+    
     }
 
     public static function update($id, array $data): ?Service

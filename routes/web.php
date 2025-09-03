@@ -28,3 +28,4 @@ Route::resource('projects', ProjectController::class);
 
 // Routes for managing Participants (Create, Read, Update, Delete)
 Route::resource('participants', ParticipantController::class);
+Route::resource('equipment', EquipmentController::class);
