@@ -10,10 +10,38 @@ use App\Data\FakeProjectRepository;
 
 class FacilityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $facilities = FakeFacilityRepository::all();
-        return view('facilities.index', compact('facilities'));
+
+        // Apply search filters manually since using FakeRepository
+        if ($request->filled('search')) {
+            $facilities = array_filter($facilities, function ($f) use ($request) {
+                return stripos($f->Name, $request->search) !== false;
+            });
+        }
+
+        if ($request->filled('type')) {
+            $facilities = array_filter($facilities, function ($f) use ($request) {
+                return stripos($f->FacilityType, $request->type) !== false;
+            });
+        }
+
+        if ($request->filled('partner')) {
+            $facilities = array_filter($facilities, function ($f) use ($request) {
+                return stripos($f->PartnerOrganization, $request->partner) !== false;
+            });
+        }
+
+        if ($request->filled('capabilities')) {
+            $capFilter = strtolower($request->capabilities);
+            $facilities = array_filter($facilities, function ($f) use ($capFilter) {
+                return !empty($f->Capabilities) &&
+                       collect($f->Capabilities)->contains(fn($c) => stripos($c, $capFilter) !== false);
+            });
+        }
+
+        return view('facilities.index', ['facilities' => $facilities]);
     }
 
     public function create()

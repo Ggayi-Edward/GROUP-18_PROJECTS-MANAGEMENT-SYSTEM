@@ -7,6 +7,14 @@
       "app.css"
     ]
   },
+  "resources/css/program-details.css": {
+    "file": "assets/program-details-DOVjX219.css",
+    "src": "resources/css/program-details.css",
+    "isEntry": true,
+    "names": [
+      "program-details.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-C0G0cght.js",
     "name": "app",

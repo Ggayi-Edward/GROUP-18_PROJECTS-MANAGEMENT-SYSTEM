@@ -9,18 +9,99 @@
 
 @section('styles')
 <style>
-    /* Make table rows smaller */
     .table-smaller th,
     .table-smaller td {
-        padding: 0.35rem 0.5rem !important; /* reduce padding */
-        vertical-align: middle !important; /* center content */
-        font-size: 0.85rem; /* slightly smaller text */
+        padding: 0.3rem 0.45rem !important;
+        vertical-align: middle !important;
+        font-size: 0.82rem;
+    }
+
+    /* Slim filter controls */
+    .filter-form .form-control,
+    .filter-form .form-select,
+    .filter-form .btn {
+        height: 32px;
+        font-size: 0.8rem;
+        padding: 0.2rem 0.45rem;
+    }
+
+    /* Search with icon inside (icon at the end) */
+    .search-wrapper {
+        position: relative;
+    }
+    .search-wrapper .fa-search {
+        position: absolute;
+        right: 10px; /* moved to right */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.8rem;
+        color: #888;
+    }
+    .search-wrapper input {
+        padding-right: 28px; /* space for the icon */
+        padding-left: 0.45rem; /* normal padding */
+    }
+
+    /* Extra spacing between Reset & Apply buttons */
+    .filter-form .btn + .btn {
+        margin-left: 8px;
     }
 </style>
 @endsection
 
 @section('content')
 <div class="card shadow-sm border-0">
+
+    <!-- Filter Bar -->
+    <div class="card-body pb-2">
+        <form method="GET" action="{{ route('facilities.index') }}" class="filter-form">
+            <div class="row g-2 align-items-center">
+
+                <!-- Search -->
+                <div class="col-md-3">
+                    <div class="search-wrapper">
+                        <input type="text" name="search" value="{{ request('search') }}" 
+                               class="form-control" placeholder="Search by name">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <!-- Type -->
+                <div class="col-md-2">
+                    <select name="type" class="form-select">
+                        <option value="">All Types</option>
+                        <option value="Hospital" {{ request('type')=='Hospital' ? 'selected' : '' }}>Hospital</option>
+                        <option value="Clinic" {{ request('type')=='Clinic' ? 'selected' : '' }}>Clinic</option>
+                        <option value="Lab" {{ request('type')=='Lab' ? 'selected' : '' }}>Lab</option>
+                    </select>
+                </div>
+
+                <!-- Partner -->
+                <div class="col-md-3">
+                    <input type="text" name="partner" value="{{ request('partner') }}" 
+                           class="form-control" placeholder="Partner org">
+                </div>
+
+                <!-- Capabilities -->
+                <div class="col-md-2">
+                    <input type="text" name="capabilities" value="{{ request('capabilities') }}" 
+                           class="form-control" placeholder="Capabilities">
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-md-2 d-flex justify-content-end">
+                    <a href="{{ route('facilities.index') }}" class="btn btn-secondary">
+                        Reset
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Apply Filters
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Card Header -->
     <div class="card-header d-flex justify-content-between align-items-center text-white"
          style="background: linear-gradient(135deg, #2c3e50 0%, #2980b9 100%);">
         <div class="card-title mb-0">
@@ -35,6 +116,7 @@
         </div>
     </div>
 
+    <!-- Table -->
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover table-striped table-smaller mb-0">
