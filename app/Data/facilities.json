@@ -1,12 +1,12 @@
 {
     "1": {
-        "Name": "facility",
-        "Location": "hdfbefye",
-        "Description": "sjdbwud",
-        "PartnerOrganization": "dhbehd",
-        "FacilityType": "ndfehd",
+        "Name": "H&M Laboratory",
+        "Location": "Mukono",
+        "Description": "This facility aids in testing materials.",
+        "PartnerOrganization": "UniPod",
+        "FacilityType": "Laboratory",
         "Capabilities": [
-            "sjnduwed"
+            "Materials testing"
         ],
         "FacilityId": 1
     }

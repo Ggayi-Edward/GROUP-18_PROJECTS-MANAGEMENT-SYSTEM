@@ -60,4 +60,12 @@ class FakeServiceRepository
         unset($services[$id]);
         self::save($services);
     }
+
+    public static function forFacility($facilityId): array
+    {
+        $rows = self::load();
+        $filtered = array_filter($rows, fn($r) => isset($r['FacilityId']) && $r['FacilityId'] == $facilityId);
+        return array_map(fn($r) => \App\Models\Service::fromArray($r), $filtered);
+    }
+
 }

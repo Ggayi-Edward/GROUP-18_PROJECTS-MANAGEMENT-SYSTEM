@@ -11,14 +11,20 @@
 @section('content')
 <div class="container-fluid py-3">
 
+    <!-- Header Row with Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Overview</h3>
+        <a href="{{ route('programs.index') }}" class="btn btn-outline-secondary btn-sm">
+         Back
+        </a>
+    </div>
+
     <!-- Top Info Section -->
     <div class="row g-3 mb-4">
         <!-- Program Info Card -->
         <div class="col-12 col-md-6">
             <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    
-
                     @if($program->Description)
                         <div class="mb-2">
                             <div class="text-muted small">Description</div>
@@ -88,15 +94,34 @@
                 <thead class="table-light">
                     <tr>
                         <th>Name</th>
-                        <th style="width: 120px;">Actions</th>
+                        <th style="width: 120px;" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($projects as $project)
                         <tr>
                             <td>{{ $project->Name }}</td>
-                            <td>
-                                <a href="{{ route('projects.show', $project->ProjectId) }}" class="btn btn-sm btn-secondary w-100">View</a>
+                            <td class="text-center">
+                                <a href="{{ route('projects.show', $project->ProjectId) }}" 
+                                   class="btn btn-outline-info btn-sm p-1" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('projects.edit', $project->ProjectId) }}" 
+                                   class="btn btn-outline-warning btn-sm p-1" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('projects.destroy', $project->ProjectId) }}" 
+                                      method="POST" 
+                                      class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this project?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="btn btn-outline-danger btn-sm p-1" 
+                                            title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty
@@ -107,11 +132,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="mt-3">
-        <a href="{{ route('programs.index') }}" class="btn btn-outline-secondary">Back</a>
     </div>
 
 </div>

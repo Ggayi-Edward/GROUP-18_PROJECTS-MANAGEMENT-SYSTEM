@@ -73,4 +73,6 @@ class FakeEquipmentRepository
         $filtered = array_filter($rows, fn ($r) => ($r['FacilityId'] ?? null) == $facilityId);
         return array_map(fn ($r) => Equipment::fromArray($r), $filtered);
     }
+
+    
 }
