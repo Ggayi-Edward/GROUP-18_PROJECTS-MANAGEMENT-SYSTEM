@@ -55,6 +55,8 @@ The system manages **Programs, Projects, Facilities, Services, Equipment, Partic
 
 ## Project Structure
 
+<img src="assets/structure.png" alt="Projcet Structure" width="200"/>
+
 ## ⚙️ Setup & Installation
 
 1. **Clone the repository**
