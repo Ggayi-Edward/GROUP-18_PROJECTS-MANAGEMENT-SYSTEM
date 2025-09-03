@@ -10,7 +10,7 @@ The system manages **Programs, Projects, Facilities, Services, Equipment, Partic
 ### Programs
 - Create, view, edit, delete programs.
 - Each **Program** has multiple **Projects**.
-- Programs dashboard shows the number of projects under it.
+- View projects under a particular program.
 
 ### Facilities
 - Manage facilities (create, edit, delete).
@@ -55,3 +55,14 @@ The system manages **Programs, Projects, Facilities, Services, Equipment, Partic
 
 ## 📂 Project Structure
 
+## ⚙️ Setup & Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/projects-management-system.git
+   cd projects-management-system
+
+2. **Install dependencies**
+   ```bash
+composer install
+npm install
