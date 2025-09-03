@@ -6,6 +6,7 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\OutcomeController;
 
 
 // Dashboard (index page)
@@ -29,3 +30,4 @@ Route::resource('projects', ProjectController::class);
 // Routes for managing Participants (Create, Read, Update, Delete)
 Route::resource('participants', ParticipantController::class);
 Route::resource('equipment', EquipmentController::class);
+Route::resource('outcomes', OutcomeController::class);

@@ -1,32 +1,18 @@
 {
-    "1": {
-        "Name": "Industry 4.0",
-        "Description": "Skilling Ugandan youth in manufacturing electronics locally",
-        "StartDate": null,
-        "EndDate": null,
-        "Status": "Ongoing",
-        "ProgramId": null,
-        "Participants": [
-            ""
-        ],
-        "Outcomes": [
-            ""
-        ],
-        "ProjectId": 1
-    },
-    "2": {
+    "3": {
         "Name": "ee",
-        "Description": "ee",
-        "StartDate": null,
-        "EndDate": null,
-        "Status": "Planned",
-        "ProgramId": null,
+        "Description": "eee",
+        "StartDate": "2025-09-04",
+        "EndDate": "2025-09-05",
+        "Status": "Ongoing",
+        "ProgramId": "3",
+        "FacilityId": "1",
         "Participants": [
-            ""
+            "ererre"
         ],
         "Outcomes": [
-            ""
+            "rgrr5"
         ],
-        "ProjectId": 2
+        "ProjectId": 3
     }
 }
