@@ -1,4 +1,4 @@
-# Projects Management System (Capstone)
+# Advanced Programming Capstone Project
 
 This is a **Laravel 12.x** based **Projects Management System** built for the AP Capstone use case.  
 The system manages **Programs, Projects, Facilities, Services, Equipment, Participants, and Outcomes**, implementing all required relationships and CRUD operations.
