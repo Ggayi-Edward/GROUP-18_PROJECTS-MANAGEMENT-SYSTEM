@@ -64,5 +64,17 @@ The system manages **Programs, Projects, Facilities, Services, Equipment, Partic
 
 2. **Install dependencies**
    ```bash
-composer install
-npm install
+   composer install
+   npm install
+
+3. **Run development server**
+   ```bash
+   php artisan serve
+
+4. **Run frontend build**
+   ```bash
+   npm run dev
+   
+5. **Open browser at:**
+   ```cpp
+   http://127.0.0.1:8000
