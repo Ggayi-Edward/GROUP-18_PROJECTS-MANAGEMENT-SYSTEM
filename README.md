@@ -1,5 +1,9 @@
 # Advanced Programming Capstone Project
 
+
+![Laravel](https://img.shields.io/badge/Laravel-12.x-red)
+![PHP](https://img.shields.io/badge/PHP-8.3-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 This is a **Laravel 12.x** based **Projects Management System** built for the AP Capstone use case.  
 The system manages **Programs, Projects, Facilities, Services, Equipment, Participants, and Outcomes**, implementing all required relationships and CRUD operations.
 
