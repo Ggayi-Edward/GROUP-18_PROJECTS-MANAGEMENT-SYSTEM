@@ -20,42 +20,53 @@ class ProgramController extends Controller
 
     public function store(Request $request)
     {
-        FakeProgramRepository::create([
-    'Name' => $request->input('Name'),
-    'Description' => $request->input('Description'),
-    'NationalAlignment' => $request->input('NationalAlignment'),
-    'FocusAreas' => array_map('trim', explode(',', $request->input('FocusAreas'))),
-    'Phases' => array_map('trim', explode(',', $request->input('Phases'))),
-]);
+        $data = $request->validate([
+            'Name' => 'required|string|max:255',
+            'Description' => 'nullable|string',
+            'NationalAlignment' => 'nullable|string',
+            'FocusAreas' => 'nullable|string',
+            'Phases' => 'nullable|string',
+        ]);
+
+        FakeProgramRepository::create($data);
+        return redirect()->route('programs.index')->with('status', 'Program created.');
     }
 
     public function show($id)
     {
         $program = FakeProgramRepository::find($id);
-        return view('programs.show', compact('program'));
+        abort_unless($program, 404);
+
+        // get projects for this program (returns array of Project objects or arrays depending on Project repo)
+        $projects = FakeProgramRepository::projects($id);
+
+        return view('programs.show', compact('program', 'projects'));
     }
 
     public function edit($id)
     {
         $program = FakeProgramRepository::find($id);
+        abort_unless($program, 404);
         return view('programs.edit', compact('program'));
     }
 
     public function update(Request $request, $id)
     {
-        FakeProgramRepository::update($id, [
-            'Name' => $request->input('name'),
-            'Description' => $request->input('description'),
-            'NationalAlignment' => $request->input('nationalAlignment'),
-            'FocusAreas' => array_map('trim', explode(',', $request->input('focusAreas'))),
-            'Phases' => array_map('trim', explode(',', $request->input('phases'))),
+        $data = $request->validate([
+            'Name' => 'required|string|max:255',
+            'Description' => 'nullable|string',
+            'NationalAlignment' => 'nullable|string',
+            'FocusAreas' => 'nullable|string',
+            'Phases' => 'nullable|string',
         ]);
-        return redirect()->route('programs.index');
+
+        FakeProgramRepository::update($id, $data);
+        return redirect()->route('programs.index')->with('status', 'Program updated.');
     }
 
     public function destroy($id)
     {
         FakeProgramRepository::delete($id);
-        return redirect()->route('programs.index');
+        return redirect()->route('programs.index')->with('status', 'Program deleted.');
     }
 }

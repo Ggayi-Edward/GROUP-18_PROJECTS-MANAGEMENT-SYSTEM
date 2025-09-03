@@ -1,48 +1,44 @@
 @extends('layouts.app')
 
+@section('title', 'Create Program')
+@section('page-title', 'Create Program')
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('programs.index') }}">Programs</a></li>
+    <li class="breadcrumb-item active">Create</li>
+@endsection
+
 @section('content')
-<div class="card shadow-sm">
-    <div class="card-header">
-        <h3 class="card-title">Create Program</h3>
-    </div>
+<div class="card">
+    <div class="card-header"><h3 class="card-title">Create Program</h3></div>
+
     <form action="{{ route('programs.store') }}" method="POST">
         @csrf
         <div class="card-body">
-            <div class="form-group mb-3">
-                <label for="name">Program Name</label>
-                <input type="text" id="name" name="Name" class="form-control" placeholder="Enter program name" required>
+            <div class="form-group">
+                <label for="Name">Program Name</label>
+                <input type="text" id="Name" name="Name" class="form-control" placeholder="Enter program name" required value="{{ old('Name') }}">
             </div>
-
-            <div class="form-group mb-3">
-                <label for="description">Description</label>
-                <textarea id="description" name="Description" class="form-control" rows="3" placeholder="Enter program description" required></textarea>
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Description" class="form-control" rows="3" placeholder="Enter program description">{{ old('Description') }}</textarea>
             </div>
-
-            <div class="form-group mb-3">
-                <label for="nationalAlignment">National Alignment</label>
-                <input type="text" id="nationalAlignment" name="NationalAlignment" class="form-control" placeholder="NDPIII, 4IR Strategy, etc.">
+            <div class="form-group">
+                <label for="NationalAlignment">National Alignment</label>
+                <input type="text" id="NationalAlignment" name="NationalAlignment" class="form-control" placeholder="NDPIII, 4IR Strategy, etc." value="{{ old('NationalAlignment') }}">
             </div>
-
-            <div class="form-group mb-3">
-                <label for="focusAreas">Focus Areas</label>
-                <input type="text" id="focusAreas" name="FocusAreas" class="form-control" placeholder="IoT, Automation, Renewable Energy">
-                <small class="form-text text-muted">Separate multiple areas with commas</small>
+            <div class="form-group">
+                <label for="FocusAreas">Focus Areas (comma separated)</label>
+                <input type="text" id="FocusAreas" name="FocusAreas" class="form-control" placeholder="IoT, Automation" value="{{ old('FocusAreas') }}">
             </div>
-
-            <div class="form-group mb-3">
-                <label for="phases">Phases</label>
-                <input type="text" id="phases" name="Phases" class="form-control" placeholder="Cross-Skilling, Collaboration, Prototyping">
-                <small class="form-text text-muted">Separate multiple phases with commas</small>
+            <div class="form-group">
+                <label for="Phases">Phases (comma separated)</label>
+                <input type="text" id="Phases" name="Phases" class="form-control" placeholder="Design, Pilot" value="{{ old('Phases') }}">
             </div>
         </div>
-
-        <div class="card-footer d-flex justify-content-start gap-2">
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-save me-1"></i> Save
-            </button>
-            <a href="{{ route('programs.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-1"></i> Cancel
-            </a>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{{ route('programs.index') }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-success">Save <i class="fas fa-check ml-1"></i></button>
         </div>
     </form>
 </div>

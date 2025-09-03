@@ -1,53 +1,39 @@
 @extends('layouts.app')
 
+@section('title', 'Edit Program')
+@section('page-title', 'Edit Program')
+
 @section('content')
-<div class="card shadow-sm">
-    <div class="card-header">
-        <h3 class="card-title">Edit Program</h3>
-    </div>
+<div class="card">
+    <div class="card-header"><h3 class="card-title">Edit Program</h3></div>
+
     <form action="{{ route('programs.update', $program->ProgramId) }}" method="POST">
-        @csrf
-        @method('PUT')
+        @csrf @method('PUT')
         <div class="card-body">
-            <div class="form-group mb-3">
-                <label for="name">Program Name</label>
-                <input type="text" id="name" name="Name" class="form-control" 
-                       value="{{ $program->Name }}" required>
+            <div class="form-group">
+                <label for="Name">Program Name</label>
+                <input type="text" id="Name" name="Name" class="form-control" value="{{ $program->Name }}" required>
             </div>
-
-            <div class="form-group mb-3">
-                <label for="description">Description</label>
-                <textarea id="description" name="Description" class="form-control" rows="3" required>{{ $program->Description }}</textarea>
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Description" class="form-control" rows="3">{{ $program->Description }}</textarea>
             </div>
-
-            <div class="form-group mb-3">
-                <label for="nationalAlignment">National Alignment</label>
-                <input type="text" id="nationalAlignment" name="NationalAlignment" class="form-control" 
-                       value="{{ $program->NationalAlignment }}">
+            <div class="form-group">
+                <label for="NationalAlignment">National Alignment</label>
+                <input type="text" id="NationalAlignment" name="NationalAlignment" class="form-control" value="{{ $program->NationalAlignment }}">
             </div>
-
-            <div class="form-group mb-3">
-                <label for="focusAreas">Focus Areas</label>
-                <input type="text" id="focusAreas" name="FocusAreas" class="form-control" 
-                       value="{{ implode(',', $program->FocusAreas) }}">
-                <small class="form-text text-muted">Separate multiple areas with commas</small>
+            <div class="form-group">
+                <label for="FocusAreas">Focus Areas (comma separated)</label>
+                <input type="text" id="FocusAreas" name="FocusAreas" class="form-control" value="{{ is_array($program->FocusAreas) ? implode(',', $program->FocusAreas) : $program->FocusAreas }}">
             </div>
-
-            <div class="form-group mb-3">
-                <label for="phases">Phases</label>
-                <input type="text" id="phases" name="Phases" class="form-control" 
-                       value="{{ implode(',', $program->Phases) }}">
-                <small class="form-text text-muted">Separate multiple phases with commas</small>
+            <div class="form-group">
+                <label for="Phases">Phases (comma separated)</label>
+                <input type="text" id="Phases" name="Phases" class="form-control" value="{{ is_array($program->Phases) ? implode(',', $program->Phases) : $program->Phases }}">
             </div>
         </div>
-
-        <div class="card-footer d-flex justify-content-start gap-2">
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-save me-1"></i> Update
-            </button>
-            <a href="{{ route('programs.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-1"></i> Cancel
-            </a>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{{ route('programs.index') }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-success">Update <i class="fas fa-save ml-1"></i></button>
         </div>
     </form>
 </div>

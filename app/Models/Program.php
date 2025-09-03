@@ -13,14 +13,14 @@ class Program
 
     public static function fromArray(array $data): self
     {
-        $program = new self();
-        $program->ProgramId = $data['ProgramId'] ?? null;
-        $program->Name = $data['Name'] ?? '';
-        $program->Description = $data['Description'] ?? '';
-        $program->NationalAlignment = $data['NationalAlignment'] ?? '';
-        $program->FocusAreas = $data['FocusAreas'] ?? [];
-        $program->Phases = $data['Phases'] ?? [];
-        return $program;
+        $p = new self();
+        $p->ProgramId = $data['ProgramId'] ?? null;
+        $p->Name = $data['Name'] ?? '';
+        $p->Description = $data['Description'] ?? '';
+        $p->NationalAlignment = $data['NationalAlignment'] ?? '';
+        $p->FocusAreas = $data['FocusAreas'] ?? [];
+        $p->Phases = $data['Phases'] ?? [];
+        return $p;
     }
 
     public function toArray(): array

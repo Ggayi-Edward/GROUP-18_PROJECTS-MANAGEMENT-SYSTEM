@@ -20,6 +20,7 @@ class FakeProjectRepository
         file_put_contents(self::$file, json_encode($projects, JSON_PRETTY_PRINT));
     }
 
+    /** @return Project[] */
     public static function all(): array
     {
         return array_map(fn($data) => Project::fromArray($data), self::load());
@@ -55,5 +56,23 @@ class FakeProjectRepository
         $projects = self::load();
         unset($projects[$id]);
         self::save($projects);
+    }
+
+    /** Get all projects under a given Program */
+    public static function forProgram($programId): array
+    {
+        $rows = self::load();
+        $filtered = array_filter($rows, fn($r) => isset($r['ProgramId']) && $r['ProgramId'] == $programId);
+
+        return array_map(fn($r) => Project::fromArray($r), $filtered);
+    }
+
+    /** Get all projects under a given Facility */
+    public static function forFacility($facilityId): array
+    {
+        $rows = self::load();
+        $filtered = array_filter($rows, fn($r) => isset($r['FacilityId']) && $r['FacilityId'] == $facilityId);
+
+        return array_map(fn($r) => Project::fromArray($r), $filtered);
     }
 }

@@ -4,8 +4,7 @@
 @section('page-title', 'Manage Programs')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Manage Programs</li>
+    <li class="breadcrumb-item active">Programs</li>
 @endsection
 
 @section('content')
@@ -13,7 +12,7 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">All Programs</h3>
         <a href="{{ route('programs.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus me-1"></i> Add Program
+            <i class="fas fa-plus"></i> Add Program
         </a>
     </div>
 
@@ -35,10 +34,10 @@
                             <td>{{ $program->Name }}</td>
                             <td>{{ $program->NationalAlignment }}</td>
                             <td class="text-center">
-                                <a href="{{ route('programs.show', $program->ProgramId) }}" class="btn btn-info btn-sm me-1" title="View">
+                                <a href="{{ route('programs.show', $program->ProgramId) }}" class="btn btn-info btn-sm" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('programs.edit', $program->ProgramId) }}" class="btn btn-warning btn-sm me-1" title="Edit">
+                                <a href="{{ route('programs.edit', $program->ProgramId) }}" class="btn btn-warning btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('programs.destroy', $program->ProgramId) }}" 
@@ -55,7 +54,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted py-3">No programs found.</td>
+                            <td colspan="4" class="text-center text-muted">No programs found.</td>
                         </tr>
                     @endforelse
                 </tbody>
