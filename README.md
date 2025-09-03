@@ -53,13 +53,13 @@ The system manages **Programs, Projects, Facilities, Services, Equipment, Partic
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ## ⚙️ Setup & Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/projects-management-system.git
+   https://github.com/Ggayi-Edward/PROJECTS-MANAGEMENT-SYSTEM.git
    cd projects-management-system
 
 2. **Install dependencies**
