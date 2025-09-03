@@ -1,78 +1,118 @@
 @extends('layouts.app')
 
-@section('title', 'Program Details')
-@section('page-title', 'Program Details')
+@section('title', $program->Name)
+@section('page-title', $program->Name)
 
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('programs.index') }}">Programs</a></li>
-    <li class="breadcrumb-item active">{{ $program->Name }}</li>
+@section('styles')
+@vite('resources/css/program-details.css')
+<link href="{{ asset('css/program-details.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">{{ $program->Name }}</h3>
-        <a href="{{ route('programs.index') }}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-arrow-left"></i> Back to List
+<div class="container-fluid py-3">
+
+    <!-- Top Info Section -->
+    <div class="row g-3 mb-4">
+        <!-- Program Info Card -->
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    
+
+                    @if($program->Description)
+                        <div class="mb-2">
+                            <div class="text-muted small">Description</div>
+                            <div>{{ $program->Description }}</div>
+                        </div>
+                    @endif
+
+                    @if($program->NationalAlignment)
+                        <div class="mb-2">
+                            <div class="text-muted small">National Alignment</div>
+                            <div>{{ $program->NationalAlignment }}</div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <!-- Focus Areas Card -->
+        <div class="col-12 col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-muted small mb-2">Focus Areas</div>
+                    <div class="d-flex flex-wrap gap-1 overflow-auto badges-container">
+                        @if(!empty($program->FocusAreas))
+                            @foreach($program->FocusAreas as $area)
+                                <span class="badge bg-primary">{{ $area }}</span>
+                            @endforeach
+                        @else
+                            <p class="text-muted mb-0">No focus areas defined.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phases Card -->
+        <div class="col-12 col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-muted small mb-2">Phases</div>
+                    <div class="d-flex flex-wrap gap-1 overflow-auto badges-container">
+                        @if(!empty($program->Phases))
+                            @foreach($program->Phases as $phase)
+                                <span class="badge bg-secondary">{{ $phase }}</span>
+                            @endforeach
+                        @else
+                            <p class="text-muted mb-0">No phases defined.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section Header -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h4 class="mb-0">Projects</h4>
+        <a href="{{ route('projects.create', ['programId' => $program->ProgramId]) }}" class="btn btn-primary btn-sm">
+            Add Project
         </a>
     </div>
 
-    <div class="card-body">
-        <p>{{ $program->Description }}</p>
-        <p><strong>National Alignment:</strong> {{ $program->NationalAlignment }}</p>
-        <p><strong>Focus Areas:</strong> {{ is_array($program->FocusAreas) ? implode(', ', $program->FocusAreas) : $program->FocusAreas }}</p>
-        <p><strong>Phases:</strong> {{ is_array($program->Phases) ? implode(', ', $program->Phases) : $program->Phases }}</p>
-
-        <hr>
-
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h5 class="mb-0">Projects under this Program</h5>
-            <a href="{{ route('projects.create') }}?programId={{ $program->ProgramId }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus"></i> Add Project (under this Program)
-            </a>
-        </div>
-
-        @if(!empty($projects))
-            <div class="table-responsive">
-                <table class="table table-sm table-hover">
-                    <thead>
+    <!-- Projects Table -->
+    <div class="card shadow-sm projects-table-container">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-sm mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th style="width: 120px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($projects as $project)
                         <tr>
-                            <th>ID</th>
-                            <th>Project Name</th>
-                            <th>Facility</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <td>{{ $project->Name }}</td>
+                            <td>
+                                <a href="{{ route('projects.show', $project->ProjectId) }}" class="btn btn-sm btn-secondary w-100">View</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($projects as $proj)
-                            <tr>
-                                <td>{{ $proj->ProjectId ?? $proj['ProjectId'] }}</td>
-                                <td>{{ $proj->Name ?? $proj['Name'] }}</td>
-                                <td>
-                                    @php
-                                        $facility = null;
-                                        if (isset($proj->FacilityId)) {
-                                            $facility = \App\Data\FakeFacilityRepository::find($proj->FacilityId);
-                                        } elseif (isset($proj['FacilityId'])) {
-                                            $facility = \App\Data\FakeFacilityRepository::find($proj['FacilityId']);
-                                        }
-                                    @endphp
-                                    {{ $facility->Name ?? $facility['Name'] ?? '—' }}
-                                </td>
-                                <td>{{ $proj->Status ?? $proj['Status'] ?? '—' }}</td>
-                                <td>
-                                    <a href="{{ route('projects.show', $proj->ProjectId ?? $proj['ProjectId']) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                    <a href="{{ route('projects.edit', $proj->ProjectId ?? $proj['ProjectId']) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <p class="text-muted">No projects found under this program.</p>
-        @endif
+                    @empty
+                        <tr>
+                            <td colspan="2" class="text-center text-muted">No projects found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <div class="mt-3">
+        <a href="{{ route('programs.index') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+
 </div>
 @endsection

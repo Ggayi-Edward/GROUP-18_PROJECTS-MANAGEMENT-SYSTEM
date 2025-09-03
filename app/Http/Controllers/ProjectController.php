@@ -13,7 +13,7 @@ class ProjectController extends Controller
     {
         $projects = FakeProjectRepository::all();
 
-        // Attach Program and Facility objects for easy use in views
+        // attach program & facility objects for display convenience
         foreach ($projects as $project) {
             $project->Program = $project->ProgramId
                 ? FakeProgramRepository::find($project->ProgramId)
@@ -27,49 +27,55 @@ class ProjectController extends Controller
         return view('projects.index', compact('projects'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        // ensure we pass the variables the view expects
         $programs = FakeProgramRepository::all();
         $facilities = FakeFacilityRepository::all();
-        return view('projects.create', compact('programs', 'facilities'));
+
+        // optional preselect from query string: /projects/create?programId=1
+        $preselectedProgramId = $request->query('programId', null);
+        $preselectedFacilityId = $request->query('facilityId', null);
+
+        return view('projects.create', compact('programs', 'facilities', 'preselectedProgramId', 'preselectedFacilityId'));
     }
 
     public function store(Request $request)
     {
-        FakeProjectRepository::create([
-            'Name'         => $request->input('name'),
-            'Description'  => $request->input('description'),
-            'StartDate'    => $request->input('startDate'),
-            'EndDate'      => $request->input('endDate'),
-            'Status'       => $request->input('status'),
-            'ProgramId'    => $request->input('programId'),
-            'FacilityId'   => $request->input('facilityId'),
-            'Participants' => $request->filled('participants')
-                ? array_map('trim', explode(',', $request->input('participants')))
-                : [],
-            'Outcomes'     => $request->filled('outcomes')
-                ? array_map('trim', explode(',', $request->input('outcomes')))
-                : [],
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'startDate' => 'nullable|date',
+            'endDate' => 'nullable|date',
+            'status' => 'nullable|string',
+            'programId' => 'required|integer',
+            'facilityId' => 'required|integer',
+            'participants' => 'nullable|string',
+            'outcomes' => 'nullable|string',
         ]);
 
-        return redirect()->route('projects.index')
-                         ->with('success', 'Project created successfully.');
+        FakeProjectRepository::create([
+            'Name' => $data['name'],
+            'Description' => $data['description'] ?? '',
+            'StartDate' => $data['startDate'] ?? null,
+            'EndDate' => $data['endDate'] ?? null,
+            'Status' => $data['status'] ?? 'Planned',
+            'ProgramId' => $data['programId'],
+            'FacilityId' => $data['facilityId'],
+            'Participants' => $data['participants'] ? array_filter(array_map('trim', explode(',', $data['participants']))) : [],
+            'Outcomes' => $data['outcomes'] ? array_filter(array_map('trim', explode(',', $data['outcomes']))) : [],
+        ]);
+
+        return redirect()->route('projects.index')->with('success', 'Project created.');
     }
 
     public function show($id)
     {
-        $project  = FakeProjectRepository::find($id);
-        if (!$project) {
-            abort(404, 'Project not found');
-        }
+        $project = FakeProjectRepository::find($id);
+        if (!$project) abort(404, 'Project not found');
 
-        $program  = $project->ProgramId
-            ? FakeProgramRepository::find($project->ProgramId)
-            : null;
-
-        $facility = $project->FacilityId
-            ? FakeFacilityRepository::find($project->FacilityId)
-            : null;
+        $program = $project->ProgramId ? FakeProgramRepository::find($project->ProgramId) : null;
+        $facility = $project->FacilityId ? FakeFacilityRepository::find($project->FacilityId) : null;
 
         return view('projects.show', compact('project', 'program', 'facility'));
     }
@@ -77,9 +83,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = FakeProjectRepository::find($id);
-        if (!$project) {
-            abort(404, 'Project not found');
-        }
+        if (!$project) abort(404, 'Project not found');
 
         $programs = FakeProgramRepository::all();
         $facilities = FakeFacilityRepository::all();
@@ -89,30 +93,36 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
-        FakeProjectRepository::update($id, [
-            'Name'         => $request->input('name'),
-            'Description'  => $request->input('description'),
-            'StartDate'    => $request->input('startDate'),
-            'EndDate'      => $request->input('endDate'),
-            'Status'       => $request->input('status'),
-            'ProgramId'    => $request->input('programId'),
-            'FacilityId'   => $request->input('facilityId'),
-            'Participants' => $request->filled('participants')
-                ? array_map('trim', explode(',', $request->input('participants')))
-                : [],
-            'Outcomes'     => $request->filled('outcomes')
-                ? array_map('trim', explode(',', $request->input('outcomes')))
-                : [],
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'startDate' => 'nullable|date',
+            'endDate' => 'nullable|date',
+            'status' => 'nullable|string',
+            'programId' => 'required|integer',
+            'facilityId' => 'required|integer',
+            'participants' => 'nullable|string',
+            'outcomes' => 'nullable|string',
         ]);
 
-        return redirect()->route('projects.index')
-                         ->with('success', 'Project updated successfully.');
+        FakeProjectRepository::update($id, [
+            'Name' => $data['name'],
+            'Description' => $data['description'] ?? '',
+            'StartDate' => $data['startDate'] ?? null,
+            'EndDate' => $data['endDate'] ?? null,
+            'Status' => $data['status'] ?? 'Planned',
+            'ProgramId' => $data['programId'],
+            'FacilityId' => $data['facilityId'],
+            'Participants' => $data['participants'] ? array_filter(array_map('trim', explode(',', $data['participants']))) : [],
+            'Outcomes' => $data['outcomes'] ? array_filter(array_map('trim', explode(',', $data['outcomes']))) : [],
+        ]);
+
+        return redirect()->route('projects.index')->with('success', 'Project updated.');
     }
 
     public function destroy($id)
     {
         FakeProjectRepository::delete($id);
-        return redirect()->route('projects.index')
-                         ->with('success', 'Project deleted successfully.');
+        return redirect()->route('projects.index')->with('success', 'Project deleted.');
     }
 }
