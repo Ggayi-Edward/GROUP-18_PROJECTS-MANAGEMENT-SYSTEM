@@ -56,7 +56,6 @@ The **Controllers** handle the business logic, acting as the bridge between the 
 - **Backend:** Laravel 12.x (PHP 8.3)
 - **Frontend:** Blade Templates + Bootstrap + AdminLTE
 - **Data Storage:** JSON (Fake repositories in `app/Data`)
-- **Icons:** FontAwesome
 - **Build Tool:** Vite (for assets)
 
 ---
