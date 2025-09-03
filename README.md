@@ -4,7 +4,8 @@
 ![PHP](https://img.shields.io/badge/PHP-8.3-blue)
 
 This is a **Laravel 12.x** based **Projects Management System** built for the AP Capstone use case.  
-The system manages **Programs, Projects, Facilities, Services, Equipment, Participants, and Outcomes**, implementing all required relationships and CRUD operations.
+The system manages **Programs, Projects, Facilities, Services, Equipment, Participants, and Outcomes**, implementing all required relationships and CRUD operations. This project follows the **Model-View-Controller (MVC)** design pattern. The **Models** define the data structure and relationships, ensuring the system can manage entities like Programs, Projects, and Facilities effectively. The **Views** are implemented using Blade templates, styled with Bootstrap and AdminLTE, providing a responsive and user-friendly interface. The **Controllers** handle the business logic, acting as the bridge between the models and views to process user requests and deliver the appropriate responses.
+
 
 ---
 
