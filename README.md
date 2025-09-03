@@ -35,7 +35,6 @@ The system manages **Programs, Projects, Facilities, Services, Equipment, Partic
 ### Participants
 - Manage participants.
 - Assign/remove participants from projects.
-- View projects a participant is involved in.
 
 ### Outcomes
 - Attach outcomes to a project.
