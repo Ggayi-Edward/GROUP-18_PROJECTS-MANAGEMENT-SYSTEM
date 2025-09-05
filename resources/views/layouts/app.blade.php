@@ -81,6 +81,14 @@
                         <p>Manage Services</p>
                     </a>
                 </li>
+                <!-- Equipment -->
+                <li class="nav-item">
+                    <a href="{{ route('equipment.index') }}" class="nav-link {{ Request::routeIs('equipment.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tools"></i>
+                        <p>Manage Equipment</p>
+                    </a>
+                </li>
+
 
                 @yield('sidebar-menu')
             </ul>
