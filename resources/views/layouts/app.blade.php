@@ -82,6 +82,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('outcomes.index') }}" class="nav-link {{ Request::routeIs('outcomes.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Manage Outcomes</p>
+                    </a>
+                </li>
+
                 @yield('sidebar-menu')
             </ul>
         </nav>

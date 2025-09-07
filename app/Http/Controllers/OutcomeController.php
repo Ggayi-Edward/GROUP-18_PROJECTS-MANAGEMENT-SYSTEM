@@ -8,64 +8,105 @@ use App\Data\FakeProjectRepository;
 
 class OutcomeController extends Controller
 {
-    public function index()
+    // List all outcomes, optionally for a specific project
+    public function index($projectId = null)
     {
-        $outcomes = FakeOutcomeRepository::all();
-        return view('outcomes.index', compact('outcomes'));
+        $outcomes = $projectId
+            ? FakeOutcomeRepository::forProject($projectId)
+            : FakeOutcomeRepository::all();
+
+        $outcomes = collect($outcomes);
+
+        return view('outcomes.index', compact('outcomes', 'projectId'));
     }
 
-    public function create()
-    {
-        $projects = FakeProjectRepository::all(); // needed for dropdown
-        return view('outcomes.create', compact('projects'));
-    }
-
-    public function store(Request $request)
-    {
-        FakeOutcomeRepository::create([
-            'Title'        => $request->input('title'),
-            'Description'  => $request->input('description'),
-            'ArtifactLink' => $request->input('artifactLink'),
-            'ProjectId'    => $request->input('projectId'),
-        ]);
-
-        return redirect()->route('outcomes.index')
-                         ->with('success', 'Outcome created successfully.');
-    }
-
+    // Show a single outcome
     public function show($id)
     {
         $outcome = FakeOutcomeRepository::find($id);
-        if (!$outcome) abort(404, 'Outcome not found');
-        $project = $outcome->ProjectId ? FakeProjectRepository::find($outcome->ProjectId) : null;
-        return view('outcomes.show', compact('outcome', 'project'));
+        abort_unless($outcome, 404);
+
+        $projects = FakeProjectRepository::all();
+
+        return view('outcomes.show', compact('outcome', 'projects'));
     }
 
+    // Show create form
+    public function create()
+    {
+        $projects = FakeProjectRepository::all();
+        return view('outcomes.create', compact('projects'));
+    }
+
+    // Store new outcome with file upload support
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'ProjectId'           => 'required|integer',
+            'Type'                => 'required|string|max:255',
+            'CertificationStatus' => 'nullable|string|max:255',
+            'Commercialization'   => 'nullable|string|max:255',
+            'FilePath'            => 'nullable|file|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg',
+            'Description'         => 'nullable|string',
+        ]);
+
+        if ($request->hasFile('FilePath')) {
+            $file = $request->file('FilePath');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/artifacts', $filename);
+            $data['FilePath'] = 'storage/artifacts/' . $filename;
+        }
+
+        FakeOutcomeRepository::create($data);
+
+        return redirect()->route('outcomes.index')
+                         ->with('status', 'Outcome added successfully');
+    }
+
+    // Edit outcome
     public function edit($id)
     {
         $outcome = FakeOutcomeRepository::find($id);
-        if (!$outcome) abort(404, 'Outcome not found');
+        abort_unless($outcome, 404);
+
         $projects = FakeProjectRepository::all();
         return view('outcomes.edit', compact('outcome', 'projects'));
     }
 
+    // Update outcome with file upload support
     public function update(Request $request, $id)
     {
-        FakeOutcomeRepository::update($id, [
-            'Title'        => $request->input('title'),
-            'Description'  => $request->input('description'),
-            'ArtifactLink' => $request->input('artifactLink'),
-            'ProjectId'    => $request->input('projectId'),
+        $data = $request->validate([
+            'ProjectId'           => 'required|integer',
+            'Type'                => 'required|string|max:255',
+            'CertificationStatus' => 'nullable|string|max:255',
+            'Commercialization'   => 'nullable|string|max:255',
+            'FilePath'            => 'nullable|file|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg',
+            'Description'         => 'nullable|string',
         ]);
 
+        if ($request->hasFile('FilePath')) {
+            $file = $request->file('FilePath');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/artifacts', $filename);
+            $data['FilePath'] = 'storage/artifacts/' . $filename;
+        }
+
+        FakeOutcomeRepository::update($id, $data);
+
         return redirect()->route('outcomes.index')
-                         ->with('success', 'Outcome updated successfully.');
+                         ->with('status', 'Outcome updated');
     }
 
+    // Delete outcome
     public function destroy($id)
     {
+        $outcome = FakeOutcomeRepository::find($id);
+        abort_unless($outcome, 404);
+
         FakeOutcomeRepository::delete($id);
+
         return redirect()->route('outcomes.index')
-                         ->with('success', 'Outcome deleted successfully.');
+                         ->with('status', 'Outcome deleted');
     }
 }

@@ -9,7 +9,6 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\EquipmentController;
 
-
 // Dashboard (index page)
 Route::get('/', function () {
     return view('dashboard.index');
@@ -28,7 +27,12 @@ Route::resource('services', ServiceController::class);
 Route::resource('projects', ProjectController::class);
 
 
-// Routes for managing Participants (Create, Read, Update, Delete)
-Route::resource('participants', ParticipantController::class);
-Route::resource('equipment', EquipmentController::class);
+
 Route::resource('outcomes', OutcomeController::class);
+
+
+// Participants CRUD
+Route::resource('participants', ParticipantController::class);
+
+// Equipment CRUD
+Route::resource('equipment', EquipmentController::class);

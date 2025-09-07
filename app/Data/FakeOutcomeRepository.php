@@ -6,61 +6,104 @@ use App\Models\Outcome;
 
 class FakeOutcomeRepository
 {
-    private static $file = __DIR__ . '/outcomes.json';
+    private static $file = __DIR__ . '/fake_outcomes.json';
+    private static $outcomes = [];
 
-    private static function load(): array
+    /**
+     * Load outcomes from JSON file.
+     */
+    private static function load(): void
     {
-        if (!file_exists(self::$file)) return [];
-        $data = json_decode(file_get_contents(self::$file), true);
-        return $data ?: [];
+        if (file_exists(self::$file)) {
+            self::$outcomes = json_decode(file_get_contents(self::$file), true) ?? [];
+        }
     }
 
-    private static function save(array $outcomes): void
+    /**
+     * Save outcomes to JSON file.
+     */
+    private static function save(): void
     {
-        file_put_contents(self::$file, json_encode($outcomes, JSON_PRETTY_PRINT));
+        file_put_contents(self::$file, json_encode(self::$outcomes, JSON_PRETTY_PRINT));
     }
 
+    /**
+     * Return all outcomes.
+     */
     public static function all(): array
     {
-        return array_map(fn($data) => Outcome::fromArray($data), self::load());
+        self::load();
+        return array_map([Outcome::class, 'fromArray'], self::$outcomes);
     }
 
+    /**
+     * Return outcomes for a specific project.
+     */
+    public static function forProject($projectId = null): array
+    {
+        if (!$projectId) {
+            return self::all();
+        }
+
+        return array_filter(self::all(), fn($o) => $o->ProjectId == $projectId);
+    }
+
+    /**
+     * Find an outcome by ID.
+     */
     public static function find($id): ?Outcome
     {
-        $rows = self::load();
-        return isset($rows[$id]) ? Outcome::fromArray($rows[$id]) : null;
+        self::load();
+        foreach (self::$outcomes as $data) {
+            if ($data['OutcomeId'] == $id) {
+                return Outcome::fromArray($data);
+            }
+        }
+        return null;
     }
 
+    /**
+     * Create a new outcome.
+     */
     public static function create(array $data): Outcome
     {
-        $rows = self::load();
-        $id = empty($rows) ? 1 : max(array_keys($rows)) + 1;
-        $data['OutcomeId'] = $id;
-        $rows[$id] = $data;
-        self::save($rows);
+        self::load();
+
+        $data['ProjectId'] = $data['ProjectId'] ?? null;
+        $data['OutcomeId'] = count(self::$outcomes) + 1;
+
+        self::$outcomes[] = $data;
+        self::save();
+
         return Outcome::fromArray($data);
     }
 
+    /**
+     * Update an existing outcome by ID.
+     */
     public static function update($id, array $data): ?Outcome
     {
-        $rows = self::load();
-        if (!isset($rows[$id])) return null;
-        $rows[$id] = array_merge($rows[$id], $data);
-        self::save($rows);
-        return Outcome::fromArray($rows[$id]);
+        self::load();
+        foreach (self::$outcomes as &$outcome) {
+            if ($outcome['OutcomeId'] == $id) {
+                $outcome = array_merge($outcome, $data);
+                self::save();
+                return Outcome::fromArray($outcome);
+            }
+        }
+        return null;
     }
 
+    /**
+     * Delete an outcome by ID.
+     */
     public static function delete($id): void
     {
-        $rows = self::load();
-        unset($rows[$id]);
-        self::save($rows);
-    }
-
-    public static function forProject($projectId): array
-    {
-        $rows = self::load();
-        $filtered = array_filter($rows, fn($r) => isset($r['ProjectId']) && $r['ProjectId'] == $projectId);
-        return array_map(fn($r) => Outcome::fromArray($r), $filtered);
+        self::load();
+        self::$outcomes = array_values(array_filter(
+            self::$outcomes,
+            fn($outcome) => $outcome['OutcomeId'] != $id
+        ));
+        self::save();
     }
 }

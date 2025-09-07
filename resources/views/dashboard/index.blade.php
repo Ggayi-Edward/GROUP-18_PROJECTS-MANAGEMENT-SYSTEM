@@ -98,5 +98,23 @@
             </a>
         </div>
     </div>
+
+    <!-- Outcomes Card -->
+    <div class="col-lg-3 col-6">
+        <div class="card card-dashboard" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: var(--text-white);">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h3>{{ count(\App\Data\FakeOutcomeRepository::all()) }}</h3>
+                    <p>Outcomes</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file-alt fa-3x"></i>
+                </div>
+            </div>
+            <a href="{{ route('outcomes.index') }}" class="card-footer text-white text-decoration-none">
+                Manage Outcomes <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
 </div>
 @endsection
