@@ -5,30 +5,36 @@ namespace App\Models;
 class Equipment
 {
     public $EquipmentId;
+    public $FacilityId;
     public $Name;
     public $Description;
-    public $Capability;
-    public $FacilityId;
+    public $Capability; // singular field
 
+    /**
+     * Hydrate an Equipment object from array data
+     */
     public static function fromArray(array $data): self
     {
-        $e = new self();
-        $e->EquipmentId = $data['EquipmentId'] ?? null;
-        $e->Name        = $data['Name']        ?? '';
-        $e->Description = $data['Description'] ?? '';
-        $e->Capability  = $data['Capability']  ?? '';
-        $e->FacilityId  = $data['FacilityId']  ?? null;
-        return $e;
+        $eq = new self();
+        $eq->EquipmentId = $data['EquipmentId'] ?? null;
+        $eq->FacilityId  = $data['FacilityId'] ?? null;
+        $eq->Name        = $data['Name'] ?? '';
+        $eq->Description = $data['Description'] ?? '';
+        $eq->Capability  = $data['Capability'] ?? ''; // keep singular
+        return $eq;
     }
 
+    /**
+     * Convert the Equipment object back to an array
+     */
     public function toArray(): array
     {
         return [
             'EquipmentId' => $this->EquipmentId,
+            'FacilityId'  => $this->FacilityId,
             'Name'        => $this->Name,
             'Description' => $this->Description,
             'Capability'  => $this->Capability,
-            'FacilityId'  => $this->FacilityId,
         ];
     }
 }

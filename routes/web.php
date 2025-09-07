@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\OutcomeController;
+use App\Http\Controllers\EquipmentController;
 
 
 // Dashboard (index page)

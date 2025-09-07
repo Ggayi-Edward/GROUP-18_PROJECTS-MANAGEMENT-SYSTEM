@@ -23,17 +23,31 @@ class FakeEquipmentRepository
         file_put_contents(self::$file, json_encode($rows, JSON_PRETTY_PRINT));
     }
 
+    /**
+     * Convert array data into an Equipment model instance
+     */
+    private static function fromArray(array $data): Equipment
+    {
+        $equipment = new Equipment();
+        $equipment->EquipmentId  = $data['EquipmentId'] ?? null;
+        $equipment->Name         = $data['Name'] ?? null;
+        $equipment->Description  = $data['Description'] ?? null;
+        $equipment->Capability   = $data['Capability'] ?? null;
+        $equipment->FacilityId   = $data['FacilityId'] ?? null;
+        return $equipment;
+    }
+
     /** @return Equipment[] */
     public static function all(): array
     {
         $rows = self::load();
-        return array_map(fn ($r) => Equipment::fromArray($r), $rows);
+        return array_map(fn ($r) => self::fromArray($r), $rows);
     }
 
     public static function find($id): ?Equipment
     {
         $rows = self::load();
-        return isset($rows[$id]) ? Equipment::fromArray($rows[$id]) : null;
+        return isset($rows[$id]) ? self::fromArray($rows[$id]) : null;
     }
 
     public static function create(array $data): Equipment
@@ -45,7 +59,7 @@ class FakeEquipmentRepository
         $rows[$id] = $data;
 
         self::save($rows);
-        return Equipment::fromArray($data);
+        return self::fromArray($data);
     }
 
     public static function update($id, array $data): ?Equipment
@@ -56,7 +70,7 @@ class FakeEquipmentRepository
         $rows[$id] = array_merge($rows[$id], $data);
         self::save($rows);
 
-        return Equipment::fromArray($rows[$id]);
+        return self::fromArray($rows[$id]);
     }
 
     public static function delete($id): void
@@ -71,8 +85,6 @@ class FakeEquipmentRepository
     {
         $rows = self::load();
         $filtered = array_filter($rows, fn ($r) => ($r['FacilityId'] ?? null) == $facilityId);
-        return array_map(fn ($r) => Equipment::fromArray($r), $filtered);
+        return array_map(fn ($r) => self::fromArray($r), $filtered);
     }
-
-    
 }

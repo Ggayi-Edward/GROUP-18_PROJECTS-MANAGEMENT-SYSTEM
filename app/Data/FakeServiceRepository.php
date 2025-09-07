@@ -13,6 +13,7 @@ class FakeServiceRepository
         if (!file_exists(self::$file)) {
             return [];
         }
+
         $data = json_decode(file_get_contents(self::$file), true);
         return $data ?: [];
     }
@@ -38,17 +39,26 @@ class FakeServiceRepository
     {
         $services = self::load();
         $id = empty($services) ? 1 : max(array_keys($services)) + 1;
-        $data['ServiceId'] = $id;
+        $data['ServiceId']   = $id;
+        $data['FacilityId']  = $data['FacilityId'] ?? null;
+        $data['TargetGroups'] = $data['TargetGroups'] ?? [];
+        $data['Category']     = $data['Category'] ?? '';
+        $data['DeliveryMode'] = $data['DeliveryMode'] ?? '';
         $services[$id] = $data;
         self::save($services);
         return Service::fromArray($data);
-    
     }
 
     public static function update($id, array $data): ?Service
     {
         $services = self::load();
         if (!isset($services[$id])) return null;
+
+        $data['FacilityId']  = $data['FacilityId'] ?? $services[$id]['FacilityId'] ?? null;
+        $data['TargetGroups'] = $data['TargetGroups'] ?? $services[$id]['TargetGroups'] ?? [];
+        $data['Category']     = $data['Category'] ?? $services[$id]['Category'] ?? '';
+        $data['DeliveryMode'] = $data['DeliveryMode'] ?? $services[$id]['DeliveryMode'] ?? '';
+
         $services[$id] = array_merge($services[$id], $data);
         self::save($services);
         return Service::fromArray($services[$id]);
@@ -57,15 +67,23 @@ class FakeServiceRepository
     public static function delete($id): void
     {
         $services = self::load();
-        unset($services[$id]);
-        self::save($services);
+        if (isset($services[$id])) {
+            unset($services[$id]);
+            self::save($services);
+        }
     }
 
     public static function forFacility($facilityId): array
     {
         $rows = self::load();
         $filtered = array_filter($rows, fn($r) => isset($r['FacilityId']) && $r['FacilityId'] == $facilityId);
-        return array_map(fn($r) => \App\Models\Service::fromArray($r), $filtered);
+        return array_map(fn($r) => Service::fromArray($r), $filtered);
     }
 
+    public static function filterByCategory(string $category): array
+    {
+        $rows = self::load();
+        $filtered = array_filter($rows, fn($r) => isset($r['Category']) && stripos($r['Category'], $category) !== false);
+        return array_map(fn($r) => Service::fromArray($r), $filtered);
+    }
 }

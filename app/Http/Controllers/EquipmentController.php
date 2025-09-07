@@ -11,6 +11,13 @@ class EquipmentController extends Controller
     public function index()
     {
         $equipment = FakeEquipmentRepository::all();
+
+        // Attach facility names manually (since no real Eloquent relationship exists)
+        foreach ($equipment as $eq) {
+            $facility = FakeFacilityRepository::find($eq->FacilityId);
+            $eq->FacilityName = $facility ? $facility->Name : 'N/A';
+        }
+
         return view('equipment.index', compact('equipment'));
     }
 
@@ -37,6 +44,11 @@ class EquipmentController extends Controller
     {
         $equipment = FakeEquipmentRepository::find($id);
         abort_unless($equipment, 404);
+
+        // Attach facility name for display
+        $facility = FakeFacilityRepository::find($equipment->FacilityId);
+        $equipment->FacilityName = $facility ? $facility->Name : 'N/A';
+
         return view('equipment.show', compact('equipment'));
     }
 
@@ -44,7 +56,13 @@ class EquipmentController extends Controller
     {
         $equipment  = FakeEquipmentRepository::find($id);
         abort_unless($equipment, 404);
+
         $facilities = FakeFacilityRepository::all();
+
+        // Attach facility name
+        $facility = FakeFacilityRepository::find($equipment->FacilityId);
+        $equipment->FacilityName = $facility ? $facility->Name : 'N/A';
+
         return view('equipment.edit', compact('equipment', 'facilities'));
     }
 

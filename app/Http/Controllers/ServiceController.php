@@ -4,59 +4,127 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Data\FakeServiceRepository;
+use App\Data\FakeFacilityRepository;
 
 class ServiceController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of services (optionally filtered by category).
+     */
+    public function index(Request $request)
     {
-        $services = FakeServiceRepository::all();
-        return view('services.index', compact('services'));
+        $category = $request->input('category');
+        $services = $category
+            ? FakeServiceRepository::filterByCategory($category)
+            : FakeServiceRepository::all();
+
+        return view('services.index', compact('services', 'category'));
     }
 
+    /**
+     * Show the form for creating a new service.
+     */
     public function create()
     {
-        return view('services.create');
+        $facilities = FakeFacilityRepository::all();
+        return view('services.create', compact('facilities'));
     }
 
+    /**
+     * Store a newly created service in the repository.
+     */
     public function store(Request $request)
     {
-        FakeServiceRepository::create([
-            'Name' => $request->input('name'),
-            'Description' => $request->input('description'),
-            'Category' => $request->input('category'),
-            'DeliveryMode' => $request->input('deliveryMode'),
-            'TargetGroups' => array_map('trim', explode(',', $request->input('targetGroups'))),
+        $validated = $request->validate([
+            'name'         => 'required|string|max:255',
+            'description'  => 'nullable|string',
+            'category'     => 'nullable|string|max:100',
+            'deliveryMode' => 'nullable|string|max:100',
+            'targetGroups' => 'nullable|string',
+            'facilityId'   => 'required|integer',
         ]);
-        return redirect()->route('services.index');
+
+        FakeServiceRepository::create([
+            'Name'         => $validated['name'],
+            'Description'  => $validated['description'] ?? '',
+            'Category'     => $validated['category'] ?? '',
+            'DeliveryMode' => $validated['deliveryMode'] ?? '',
+            'TargetGroups' => !empty($validated['targetGroups'])
+                                ? array_map('trim', explode(',', $validated['targetGroups']))
+                                : [],
+            'FacilityId'   => $validated['facilityId'],
+        ]);
+
+        return redirect()->route('services.index')
+                         ->with('success', 'Service created successfully.');
     }
 
-    public function show($id)
+    /**
+     * Display a single service.
+     */
+    public function show(int $id)
     {
         $service = FakeServiceRepository::find($id);
+
+        if (!$service) {
+            abort(404, 'Service not found.');
+        }
+
         return view('services.show', compact('service'));
     }
 
-    public function edit($id)
+    /**
+     * Show the form for editing an existing service.
+     */
+    public function edit(int $id)
     {
         $service = FakeServiceRepository::find($id);
-        return view('services.edit', compact('service'));
+
+        if (!$service) {
+            abort(404, 'Service not found.');
+        }
+
+        $facilities = FakeFacilityRepository::all();
+        return view('services.edit', compact('service', 'facilities'));
     }
 
-    public function update(Request $request, $id)
+    /**
+     * Update an existing service in the repository.
+     */
+    public function update(Request $request, int $id)
     {
-        FakeServiceRepository::update($id, [
-            'Name' => $request->input('name'),
-            'Description' => $request->input('description'),
-            'Category' => $request->input('category'),
-            'DeliveryMode' => $request->input('deliveryMode'),
-            'TargetGroups' => array_map('trim', explode(',', $request->input('targetGroups'))),
+        $validated = $request->validate([
+            'name'         => 'required|string|max:255',
+            'description'  => 'nullable|string',
+            'category'     => 'nullable|string|max:100',
+            'deliveryMode' => 'nullable|string|max:100',
+            'targetGroups' => 'nullable|string',
+            'facilityId'   => 'required|integer',
         ]);
-        return redirect()->route('services.index');
+
+        FakeServiceRepository::update($id, [
+            'Name'         => $validated['name'],
+            'Description'  => $validated['description'] ?? '',
+            'Category'     => $validated['category'] ?? '',
+            'DeliveryMode' => $validated['deliveryMode'] ?? '',
+            'TargetGroups' => !empty($validated['targetGroups'])
+                                ? array_map('trim', explode(',', $validated['targetGroups']))
+                                : [],
+            'FacilityId'   => $validated['facilityId'],
+        ]);
+
+        return redirect()->route('services.index')
+                         ->with('success', 'Service updated successfully.');
     }
 
-    public function destroy($id)
+    /**
+     * Remove a service from the repository.
+     */
+    public function destroy(int $id)
     {
         FakeServiceRepository::delete($id);
-        return redirect()->route('services.index');
+
+        return redirect()->route('services.index')
+                         ->with('success', 'Service deleted successfully.');
     }
 }

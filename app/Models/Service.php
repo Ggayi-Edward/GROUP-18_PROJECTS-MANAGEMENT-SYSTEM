@@ -10,6 +10,7 @@ class Service
     public $Category;
     public $DeliveryMode;
     public $TargetGroups = [];
+    public $FacilityId; // 
 
     public static function fromArray(array $data): self
     {
