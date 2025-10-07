@@ -14,9 +14,8 @@
     <!-- Header with Back Button -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="mb-0">Overview</h3>
-        <a href="{{ route('outcomes.index') }}" class="btn btn-outline-secondary btn-sm">
-        Back
-        </a>
+<a href="{{ $redirectUrl }}" class="btn btn-outline-secondary">Back</a>
+
     </div>
 
     <!-- Top Info Cards -->
@@ -53,26 +52,22 @@
     </div>
 
     <!-- Artifact Section -->
-    <div class="d-flex justify-content-between align-items-center mb-2">
-        <h4 class="mb-0">Artifact</h4>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h4 class="mb-0">Artifact</h4>
+</div>
 
-    </div>
-
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            @if($outcome->FilePath)
-    <a href="{{ asset($outcome->FilePath) }}" download
-       class="btn btn-outline-primary btn-sm">
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+@if(!empty($outcome->FilePath))
+    <a href="{{ asset($outcome->FilePath) }}" class="btn btn-outline-primary btn-sm">
         <i class="fas fa-download me-1"></i> Download Artifact
     </a>
 @else
     <span class="text-muted">No file uploaded</span>
 @endif
 
-        </div>
     </div>
-
-
+</div>
 
 
 </div>
