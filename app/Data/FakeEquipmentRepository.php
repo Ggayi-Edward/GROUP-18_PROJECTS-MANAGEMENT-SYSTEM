@@ -29,11 +29,14 @@ class FakeEquipmentRepository
     private static function fromArray(array $data): Equipment
     {
         $equipment = new Equipment();
-        $equipment->EquipmentId  = $data['EquipmentId'] ?? null;
-        $equipment->Name         = $data['Name'] ?? null;
-        $equipment->Description  = $data['Description'] ?? null;
-        $equipment->Capability   = $data['Capability'] ?? null;
-        $equipment->FacilityId   = $data['FacilityId'] ?? null;
+        $equipment->EquipmentId    = $data['EquipmentId']   ?? null;
+        $equipment->FacilityId     = $data['FacilityId']    ?? null;
+        $equipment->Name           = $data['Name']          ?? null;
+        $equipment->Capabilities   = $data['Capabilities']  ?? null;
+        $equipment->Description    = $data['Description']   ?? null;
+        $equipment->InventoryCode  = $data['InventoryCode'] ?? null;
+        $equipment->UsageDomain    = $data['UsageDomain']   ?? null;
+        $equipment->SupportPhase   = $data['SupportPhase']  ?? null;
         return $equipment;
     }
 
