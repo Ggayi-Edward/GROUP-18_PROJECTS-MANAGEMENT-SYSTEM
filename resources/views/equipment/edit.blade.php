@@ -5,7 +5,6 @@
 
 @section('styles')
 <style>
-    /* Gradient header for the card */
     .card-header-gradient {
         background: linear-gradient(135deg, #2c3e50 0%, #2980b9 100%);
         color: #fff;
@@ -16,7 +15,6 @@
 @section('content')
 <div class="container-fluid py-3">
 
-    <!-- Card Wrapper -->
     <div class="card shadow-sm">
         <div class="card-header card-header-gradient d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Edit {{ $equipment->Name }}</h3>
@@ -36,28 +34,30 @@
                             <input type="text" id="Name" name="Name"
                                    value="{{ old('Name', $equipment->Name) }}"
                                    class="form-control @error('Name') is-invalid @enderror" required>
-                            @error('Name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            @error('Name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="Capability">Capability</label>
-                            <input type="text" id="Capability" name="Capability"
-                                   value="{{ old('Capability', $equipment->Capability) }}"
-                                   class="form-control @error('Capability') is-invalid @enderror">
-                            @error('Capability')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="Capabilities">Capabilities</label>
+                            <input type="text" id="Capabilities" name="Capabilities"
+                                   value="{{ old('Capabilities', $equipment->Capabilities) }}"
+                                   class="form-control @error('Capabilities') is-invalid @enderror">
+                            @error('Capabilities')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="Description">Description</label>
                             <textarea id="Description" name="Description" rows="3"
                                       class="form-control @error('Description') is-invalid @enderror">{{ old('Description', $equipment->Description) }}</textarea>
-                            @error('Description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            @error('Description')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="InventoryCode">Inventory Code</label>
+                            <input type="text" id="InventoryCode" name="InventoryCode"
+                                   value="{{ old('InventoryCode', $equipment->InventoryCode) }}"
+                                   class="form-control @error('InventoryCode') is-invalid @enderror">
+                            @error('InventoryCode')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
 
@@ -74,15 +74,28 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('FacilityId')
-                                <div class="text-danger small">{{ $message }}</div>
-                            @enderror
+                            @error('FacilityId')<div class="text-danger small">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="UsageDomain">Usage Domain</label>
+                            <input type="text" id="UsageDomain" name="UsageDomain"
+                                   value="{{ old('UsageDomain', $equipment->UsageDomain) }}"
+                                   class="form-control @error('UsageDomain') is-invalid @enderror">
+                            @error('UsageDomain')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="SupportPhase">Support Phase</label>
+                            <input type="text" id="SupportPhase" name="SupportPhase"
+                                   value="{{ old('SupportPhase', $equipment->SupportPhase) }}"
+                                   class="form-control @error('SupportPhase') is-invalid @enderror">
+                            @error('SupportPhase')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer -->
             <div class="card-footer d-flex justify-content-end">
                 <button type="submit" class="btn btn-success">
                     <i class="fas fa-save me-1"></i> Update Equipment
