@@ -30,10 +30,13 @@ class EquipmentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'Name'        => 'required|string|max:255',
-            'Description' => 'nullable|string',
-            'Capability'  => 'required|string|max:255',
-            'FacilityId'  => 'required|integer',
+            'Name'          => 'required|string|max:255',
+            'Description'   => 'nullable|string',
+            'Capabilities'  => 'required|string|max:255',
+            'FacilityId'    => 'required|integer',
+            'InventoryCode' => 'nullable|string|max:255',
+            'UsageDomain'   => 'nullable|string|max:255',
+            'SupportPhase'  => 'nullable|string|max:255',
         ]);
 
         FakeEquipmentRepository::create($data);
@@ -69,10 +72,13 @@ class EquipmentController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'Name'        => 'required|string|max:255',
-            'Description' => 'nullable|string',
-            'Capability'  => 'required|string|max:255',
-            'FacilityId'  => 'required|integer',
+            'Name'          => 'required|string|max:255',
+            'Description'   => 'nullable|string',
+            'Capabilities'  => 'required|string|max:255',
+            'FacilityId'    => 'required|integer',
+            'InventoryCode' => 'nullable|string|max:255',
+            'UsageDomain'   => 'nullable|string|max:255',
+            'SupportPhase'  => 'nullable|string|max:255',
         ]);
 
         FakeEquipmentRepository::update($id, $data);
