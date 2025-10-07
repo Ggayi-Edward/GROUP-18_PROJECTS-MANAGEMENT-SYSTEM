@@ -72,19 +72,7 @@
                 <textarea id="description" name="description" class="form-control" rows="3">{{ old('description', $project->Description) }}</textarea>
             </div>
 
-            {{-- Participants --}}
-            <div class="form-group mb-3">
-                <label for="participants">Participants (comma separated)</label>
-                <input type="text" id="participants" name="participants" class="form-control"
-                       value="{{ old('participants', implode(', ', $project->Participants ?? [])) }}">
-            </div>
-
-            {{-- Outcomes --}}
-            <div class="form-group mb-3">
-                <label for="outcomes">Outcomes (comma separated)</label>
-                <input type="text" id="outcomes" name="outcomes" class="form-control"
-                       value="{{ old('outcomes', implode(', ', $project->Outcomes ?? [])) }}">
-            </div>
+            
         </div>
 
         <div class="card-footer d-flex justify-content-between">
