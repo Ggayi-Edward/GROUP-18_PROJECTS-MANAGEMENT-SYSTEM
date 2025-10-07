@@ -5,36 +5,39 @@ namespace App\Models;
 class Participant
 {
     public $ParticipantId;
-    public $FirstName;
-    public $LastName;
+    public $FullName;
     public $Email;
-    public $Phone;
-    public $Role; // e.g., Student, Mentor, Coordinator
-    public $Affiliation; // e.g., University, Industry Partner
+    public $Affiliation;
+    public $Specialization;
+    public $CrossSkillTrained;
+    public $Institution;
+    public $ProjectId;
 
     public static function fromArray(array $data): self
     {
-        $participant = new self();
-        $participant->ParticipantId = $data['ParticipantId'] ?? null;
-        $participant->FirstName = $data['FirstName'] ?? '';
-        $participant->LastName = $data['LastName'] ?? '';
-        $participant->Email = $data['Email'] ?? '';
-        $participant->Phone = $data['Phone'] ?? '';
-        $participant->Role = $data['Role'] ?? '';
-        $participant->Affiliation = $data['Affiliation'] ?? '';
-        return $participant;
+        $p = new self();
+        $p->ParticipantId     = $data['ParticipantId'] ?? null;
+        $p->FullName          = $data['FullName'] ?? '';
+        $p->Email             = $data['Email'] ?? '';
+        $p->Affiliation       = $data['Affiliation'] ?? '';
+        $p->Specialization    = $data['Specialization'] ?? '';
+        $p->CrossSkillTrained = $data['CrossSkillTrained'] ?? false;
+        $p->Institution       = $data['Institution'] ?? '';
+        $p->ProjectId         = $data['ProjectId'] ?? null; // map from form/controller
+        return $p;
     }
 
     public function toArray(): array
     {
         return [
-            'ParticipantId' => $this->ParticipantId,
-            'FirstName' => $this->FirstName,
-            'LastName' => $this->LastName,
-            'Email' => $this->Email,
-            'Phone' => $this->Phone,
-            'Role' => $this->Role,
-            'Affiliation' => $this->Affiliation,
+            'ParticipantId'     => $this->ParticipantId,
+            'FullName'          => $this->FullName,
+            'Email'             => $this->Email,
+            'Affiliation'       => $this->Affiliation,
+            'Specialization'    => $this->Specialization,
+            'CrossSkillTrained' => $this->CrossSkillTrained,
+            'Institution'       => $this->Institution,
+            'ProjectId'         => $this->ProjectId,
         ];
     }
 }
