@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Data\FakeProjectRepository;
 use App\Data\FakeProgramRepository;
+use App\Data\FakeOutcomeRepository;
 use App\Data\FakeFacilityRepository;
+use App\Data\FakeParticipantRepository;
+
 
 class ProjectController extends Controller
 {
@@ -50,8 +53,8 @@ class ProjectController extends Controller
             'status' => 'nullable|string',
             'programId' => 'required|integer',
             'facilityId' => 'required|integer',
-            'participants' => 'nullable|string',
-            'outcomes' => 'nullable|string',
+            #'participants' => 'nullable|string',
+            #'outcomes' => 'nullable|string',
         ]);
 
         FakeProjectRepository::create([
@@ -62,23 +65,41 @@ class ProjectController extends Controller
             'Status' => $data['status'] ?? 'Planned',
             'ProgramId' => $data['programId'],
             'FacilityId' => $data['facilityId'],
-            'Participants' => $data['participants'] ? array_filter(array_map('trim', explode(',', $data['participants']))) : [],
-            'Outcomes' => $data['outcomes'] ? array_filter(array_map('trim', explode(',', $data['outcomes']))) : [],
+            #'Participants' => $data['participants'] ? array_filter(array_map('trim', explode(',', $data['participants']))) : [],
+            #'Outcomes' => $data['outcomes'] ? array_filter(array_map('trim', explode(',', $data['outcomes']))) : [],
         ]);
 
-        return redirect()->route('projects.index')->with('success', 'Project created.');
+        if ($request->has('projectId')) {
+        return redirect()
+            ->route('projects.show', $request->projectId)
+            ->with('success', 'Participant created successfully.');
+        }
+
+        // fallback if no projectIds
+        return redirect()
+            ->route('projects.index')
+            ->with('success', 'Participant created successfully.');
     }
 
     public function show($id)
-    {
-        $project = FakeProjectRepository::find($id);
-        if (!$project) abort(404, 'Project not found');
+{
+    $project = FakeProjectRepository::find($id);
+    if (!$project) abort(404, 'Project not found');
 
-        $program = $project->ProgramId ? FakeProgramRepository::find($project->ProgramId) : null;
-        $facility = $project->FacilityId ? FakeFacilityRepository::find($project->FacilityId) : null;
+    $program = $project->ProgramId ? FakeProgramRepository::find($project->ProgramId) : null;
+    $facility = $project->FacilityId ? FakeFacilityRepository::find($project->FacilityId) : null;
 
-        return view('projects.show', compact('project', 'program', 'facility'));
-    }
+    // Reload participants for this project
+    $allParticipants = FakeParticipantRepository::all();
+    $project->Participants = array_values(array_filter($allParticipants, fn($p) => $p->ProjectId == $id));
+
+    // Reload outcomes for this project
+    $allOutcomes = FakeOutcomeRepository::all();
+    $project->Outcomes = array_values(array_filter($allOutcomes, fn($o) => $o->ProjectId == $id));
+
+    return view('projects.show', compact('project', 'program', 'facility'));
+}
+
 
     public function edit($id)
     {
@@ -113,8 +134,8 @@ class ProjectController extends Controller
             'Status' => $data['status'] ?? 'Planned',
             'ProgramId' => $data['programId'],
             'FacilityId' => $data['facilityId'],
-            'Participants' => $data['participants'] ? array_filter(array_map('trim', explode(',', $data['participants']))) : [],
-            'Outcomes' => $data['outcomes'] ? array_filter(array_map('trim', explode(',', $data['outcomes']))) : [],
+            #'Participants' => $data['participants'] ? array_filter(array_map('trim', explode(',', $data['participants']))) : [],
+            #'Outcomes' => $data['outcomes'] ? array_filter(array_map('trim', explode(',', $data['outcomes']))) : [],
         ]);
 
         return redirect()->route('projects.index')->with('success', 'Project updated.');
