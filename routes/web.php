@@ -28,7 +28,13 @@ Route::resource('projects', ProjectController::class);
 
 
 
+// Download artifact
+Route::get('/outcomes/{id}/download', [OutcomeController::class, 'download'])
+     ->name('outcomes.download');
+
+// Outcomes resource routes
 Route::resource('outcomes', OutcomeController::class);
+
 
 
 // Participants CRUD
