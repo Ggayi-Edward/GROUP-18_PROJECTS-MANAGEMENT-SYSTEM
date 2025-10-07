@@ -10,7 +10,9 @@ class FakeParticipantRepository
 
     private static function load(): array
     {
-        if (!file_exists(self::$file)) return [];
+        if (!file_exists(self::$file)) {
+            return [];
+        }
         $data = json_decode(file_get_contents(self::$file), true);
         return $data ?: [];
     }
@@ -20,6 +22,7 @@ class FakeParticipantRepository
         file_put_contents(self::$file, json_encode($participants, JSON_PRETTY_PRINT));
     }
 
+    /** @return Participant[] */
     public static function all(): array
     {
         return array_map(fn($data) => Participant::fromArray($data), self::load());
@@ -27,33 +30,33 @@ class FakeParticipantRepository
 
     public static function find($id): ?Participant
     {
-        $participants = self::load();
-        return isset($participants[$id]) ? Participant::fromArray($participants[$id]) : null;
+        $rows = self::load();
+        return isset($rows[$id]) ? Participant::fromArray($rows[$id]) : null;
     }
 
     public static function create(array $data): Participant
     {
-        $participants = self::load();
-        $id = empty($participants) ? 1 : max(array_keys($participants)) + 1;
+        $rows = self::load();
+        $id = empty($rows) ? 1 : max(array_keys($rows)) + 1;
         $data['ParticipantId'] = $id;
-        $participants[$id] = $data;
-        self::save($participants);
+        $rows[$id] = $data;
+        self::save($rows);
         return Participant::fromArray($data);
     }
 
     public static function update($id, array $data): ?Participant
     {
-        $participants = self::load();
-        if (!isset($participants[$id])) return null;
-        $participants[$id] = array_merge($participants[$id], $data);
-        self::save($participants);
-        return Participant::fromArray($participants[$id]);
+        $rows = self::load();
+        if (!isset($rows[$id])) return null;
+        $rows[$id] = array_merge($rows[$id], $data);
+        self::save($rows);
+        return Participant::fromArray($rows[$id]);
     }
 
     public static function delete($id): void
     {
-        $participants = self::load();
-        unset($participants[$id]);
-        self::save($participants);
+        $rows = self::load();
+        unset($rows[$id]);
+        self::save($rows);
     }
 }
