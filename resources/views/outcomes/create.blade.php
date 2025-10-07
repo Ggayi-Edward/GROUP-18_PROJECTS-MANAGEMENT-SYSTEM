@@ -35,92 +35,108 @@
     </div>
 
     <!-- Form -->
-   <form action="{{ route('outcomes.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('outcomes.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
-        <div class="card-body">
 
+    {{-- Redirect URL: back to project details or index after saving --}}
+    <input type="hidden" name="redirectTo" value="{{ $redirectUrl ?? route('outcomes.index') }}">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
             <div class="row g-3">
                 <!-- Project Selection -->
                 <div class="col-md-6">
-                    <label for="ProjectId" class="form-label">Program / Project <span class="text-danger">*</span></label>
-                    <select id="ProjectId" name="ProjectId" 
-                            class="form-control @error('ProjectId') is-invalid @enderror" required>
-                        <option value="">-- Select Project --</option>
-                        @foreach($projects as $project)
-                            <option value="{{ $project->ProjectId }}" 
-                                {{ old('ProjectId') == $project->ProjectId ? 'selected' : '' }}>
-                                {{ $project->Name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('ProjectId')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <div class="form-group mb-3">
+                        <label for="ProjectId">Program / Project <span class="text-danger">*</span></label>
+                        <select id="ProjectId" name="ProjectId"
+                                class="form-control @error('ProjectId') is-invalid @enderror" required>
+                            <option value="">-- Select Project --</option>
+                            @foreach($projects as $project)
+                                <option value="{{ $project->ProjectId }}"
+                                    {{ old('ProjectId') == $project->ProjectId ? 'selected' : '' }}>
+                                    {{ $project->Name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('ProjectId')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
 
                 <!-- Outcome Type -->
                 <div class="col-md-6">
-                    <label for="Type" class="form-label">Outcome Type <span class="text-danger">*</span></label>
-                    <input type="text" id="Type" name="Type"
-                           value="{{ old('Type') }}"
-                           class="form-control @error('Type') is-invalid @enderror"
-                           placeholder="e.g., Prototype, CAD, Report" required>
-                    @error('Type')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <div class="form-group mb-3">
+                        <label for="Type">Outcome Type <span class="text-danger">*</span></label>
+                        <input type="text" id="Type" name="Type"
+                               value="{{ old('Type') }}"
+                               class="form-control @error('Type') is-invalid @enderror"
+                               placeholder="e.g., Prototype, CAD, Report" required>
+                        @error('Type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
-            <div class="row g-3 mt-2">
+            <div class="row g-3">
                 <!-- Certification Status -->
                 <div class="col-md-6">
-                    <label for="CertificationStatus" class="form-label">Certification Status</label>
-                    <input type="text" id="CertificationStatus" name="CertificationStatus"
-                           value="{{ old('CertificationStatus') }}"
-                           class="form-control"
-                           placeholder="e.g., Pending, Certified">
+                    <div class="form-group mb-3">
+                        <label for="CertificationStatus">Certification Status</label>
+                        <input type="text" id="CertificationStatus" name="CertificationStatus"
+                               value="{{ old('CertificationStatus') }}"
+                               class="form-control"
+                               placeholder="e.g., Pending, Certified">
+                    </div>
                 </div>
 
                 <!-- Commercialization Status -->
                 <div class="col-md-6">
-                    <label for="Commercialization" class="form-label">Commercialization Status</label>
-                    <input type="text" id="Commercialization" name="Commercialization"
-                           value="{{ old('Commercialization') }}"
-                           class="form-control"
-                           placeholder="e.g., Idea, Pilot, Market">
+                    <div class="form-group mb-3">
+                        <label for="Commercialization">Commercialization Status</label>
+                        <input type="text" id="Commercialization" name="Commercialization"
+                               value="{{ old('Commercialization') }}"
+                               class="form-control"
+                               placeholder="e.g., Idea, Pilot, Market">
+                    </div>
                 </div>
             </div>
 
-            <div class="row g-3 mt-2">
-                <!-- File Path -->
+            <div class="row g-3">
+                <!-- File Upload -->
                 <div class="col-md-6">
-        <label for="FilePath" class="form-label">Upload Artifact</label>
-        <input type="file" id="FilePath" name="FilePath" class="form-control">
-        @error('FilePath')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+                    <div class="form-group mb-3">
+                        <label for="FilePath">Artifact File</label>
+                        <input type="file" id="FilePath" name="FilePath"
+                               class="form-control @error('FilePath') is-invalid @enderror">
+                        @error('FilePath')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
 
                 <!-- Description -->
                 <div class="col-md-6">
-                    <label for="Description" class="form-label">Description</label>
-                    <textarea id="Description" name="Description" rows="3"
-                              class="form-control"
-                              placeholder="Short description">{{ old('Description') }}</textarea>
+                    <div class="form-group mb-3">
+                        <label for="Description">Description</label>
+                        <textarea id="Description" name="Description" rows="3"
+                                  class="form-control"
+                                  placeholder="Short description">{{ old('Description') }}</textarea>
+                    </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Footer Buttons -->
         <div class="card-footer d-flex justify-content-between">
-            <a href="{{ route('outcomes.index') }}" class="btn btn-gradient-back">
-                <i class="fas fa-arrow-left me-1"></i> Back
-            </a>
-            <button type="submit" class="btn btn-gradient-success">
+            <a href="{{ $redirectUrl ?? route('outcomes.index') }}" class="btn btn-outline-secondary">Back</a>
+            <button type="submit" class="btn btn-success">
                 <i class="fas fa-save me-1"></i> Save Outcome
             </button>
         </div>
-    </form>
+    </div>
+</form>
+
 </div>
 @endsection
