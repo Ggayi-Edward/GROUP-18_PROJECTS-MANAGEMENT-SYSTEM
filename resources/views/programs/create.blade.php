@@ -81,10 +81,10 @@
         <!-- Footer -->
         <div class="card-footer d-flex justify-content-between">
             <a href="{{ route('programs.index') }}" class="btn btn-outline-secondary">
-                <i class="fas fa-arrow-left"></i> Back
+                 Back
             </a>
             <button type="submit" class="btn btn-success">
-                <i class="fas fa-save"></i> Save Program
+                <i class="fas fa-save"></i> Save
             </button>
         </div>
     </form>
