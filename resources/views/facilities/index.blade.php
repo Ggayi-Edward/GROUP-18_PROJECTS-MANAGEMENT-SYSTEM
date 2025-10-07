@@ -4,6 +4,7 @@
 @section('page-title', 'Manage Facilities')
 
 @section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
     <li class="breadcrumb-item active">Facilities</li>
 @endsection
 
@@ -29,6 +30,22 @@
     .search-wrapper {
         position: relative;
     }
+
+    .search-wrapper .search-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 0;
+    }
+    .search-wrapper .search-btn i {
+        font-size: 0.8rem;
+        color: #888;
+    }
+
     .search-wrapper .fa-search {
         position: absolute;
         right: 10px; /* moved to right */
@@ -58,21 +75,24 @@
             <div class="row g-2 align-items-center">
 
                 <!-- Search -->
-                <div class="col-md-3">
-                    <div class="search-wrapper">
-                        <input type="text" name="search" value="{{ request('search') }}" 
-                               class="form-control" placeholder="Search by name">
+                <div class="search-wrapper">
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                        class="form-control" placeholder="Search by name">
+
+                    <!-- Turn icon into a button -->
+                    <button type="submit" class="search-btn">
                         <i class="fas fa-search"></i>
-                    </div>
+                    </button>
                 </div>
+
 
                 <!-- Type -->
                 <div class="col-md-2">
                     <select name="type" class="form-select">
                         <option value="">All Types</option>
-                        <option value="Hospital" {{ request('type')=='Hospital' ? 'selected' : '' }}>Hospital</option>
-                        <option value="Clinic" {{ request('type')=='Clinic' ? 'selected' : '' }}>Clinic</option>
-                        <option value="Lab" {{ request('type')=='Lab' ? 'selected' : '' }}>Lab</option>
+                        <option value="Workshop" {{ request('type')=='Workshop' ? 'selected' : '' }}>Workshop</option>
+                        <option value="Testing Center" {{ request('type')=='Testing Center' ? 'selected' : '' }}>Testing Center</option>
+                        <option value="Laboratory" {{ request('type')=='Lab' ? 'selected' : '' }}>Laboratory</option>
                     </select>
                 </div>
 
