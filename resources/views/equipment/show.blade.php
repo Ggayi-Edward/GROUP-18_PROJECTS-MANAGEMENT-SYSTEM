@@ -22,8 +22,8 @@
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <strong>Capability:</strong>
-                <span class="text-muted">{{ $equipment->Capability ?: 'N/A' }}</span>
+                <strong>Capabilities:</strong>
+                <span class="text-muted">{{ $equipment->Capabilities ?: 'N/A' }}</span>
             </div>
             <div class="mb-3">
                 <strong>Description:</strong>
@@ -33,10 +33,19 @@
                 <strong>Facility:</strong>
                 <span class="text-muted">{{ $equipment->FacilityName ?? 'N/A' }}</span>
             </div>
+            <div class="mb-3">
+                <strong>Inventory Code:</strong>
+                <span class="text-muted">{{ $equipment->InventoryCode ?: 'N/A' }}</span>
+            </div>
+            <div class="mb-3">
+                <strong>Usage Domain:</strong>
+                <span class="text-muted">{{ $equipment->UsageDomain ?: 'N/A' }}</span>
+            </div>
+            <div class="mb-3">
+                <strong>Support Phase:</strong>
+                <span class="text-muted">{{ $equipment->SupportPhase ?: 'N/A' }}</span>
+            </div>
         </div>
-
-        <!-- Footer -->
-        
     </div>
 </div>
 @endsection
