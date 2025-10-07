@@ -39,59 +39,65 @@
         <div class="table-responsive">
             <table class="table table-hover table-striped table-smaller mb-0">
                 <thead style="background-color: #f8f9fa;">
-                    <tr>
-                        <th style="width: 6%;">ID</th>
-                        <th style="width: 12%;">Project ID</th>
-                        <th style="width: 20%;">Type</th>
-                        <th style="width: 20%;">Certification Status</th>
-                        <th style="width: 20%;">Commercialization</th>
-                        <th class="text-center" style="width: 22%;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($outcomes as $outcome)
-                        <tr>
-                            <td>{{ $outcome->OutcomeId }}</td>
-                            <td>{{ $outcome->ProjectId ?? '-' }}</td>
-                            <td>{{ $outcome->Type }}</td>
-                            <td>{{ $outcome->CertificationStatus ?? '-' }}</td>
-                            <td>{{ $outcome->Commercialization ?? '-' }}</td>
-                            <td class="text-center">
-    <!-- Show -->
-    <a href="{{ route('outcomes.show', $outcome->OutcomeId) }}"
-       class="btn btn-xs text-white"
-       style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
-        <i class="fas fa-eye"></i>
-    </a>
+    <tr>
+        <th style="width: 6%;">ID</th>
+        <th style="width: 12%;">Project</th>
+        <th style="width: 20%;">Type</th>
+        <th style="width: 20%;">Certification Status</th>
+        <th style="width: 20%;">Commercialization</th>
+        <th class="text-center" style="width: 22%;">Actions</th>
+    </tr>
+</thead>
+<tbody>
+    @php
+        $projects = \App\Data\FakeProjectRepository::all(); // Fetch projects
+    @endphp
+    @forelse($outcomes as $outcome)
+        @php
+            $projectName = $projects[$outcome->ProjectId]->Name ?? '-';
+        @endphp
+        <tr>
+            <td>{{ $outcome->OutcomeId }}</td>
+            <td>{{ $projectName }}</td>
+            <td>{{ $outcome->Type }}</td>
+            <td>{{ $outcome->CertificationStatus ?? '-' }}</td>
+            <td>{{ $outcome->Commercialization ?? '-' }}</td>
+            <td class="text-center">
+                <!-- Show -->
+                <a href="{{ route('outcomes.show', $outcome->OutcomeId) }}"
+                   class="btn btn-xs text-white"
+                   style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
+                    <i class="fas fa-eye"></i>
+                </a>
 
-    <!-- Edit -->
-    <a href="{{ route('outcomes.edit', $outcome->OutcomeId) }}"
-       class="btn btn-xs text-white"
-       style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
-        <i class="fas fa-edit"></i>
-    </a>
+                <!-- Edit -->
+                <a href="{{ route('outcomes.edit', $outcome->OutcomeId) }}"
+                   class="btn btn-xs text-white"
+                   style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                    <i class="fas fa-edit"></i>
+                </a>
 
-    <!-- Delete -->
-    <form action="{{ route('outcomes.destroy', $outcome->OutcomeId) }}"
-          method="POST" class="d-inline"
-          onsubmit="return confirm('Are you sure you want to delete this outcome?');">
-        @csrf
-        @method('DELETE')
-        <button type="submit"
-                class="btn btn-xs text-white"
-                style="background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);">
-            <i class="fas fa-trash"></i>
-        </button>
-    </form>
-</td>
+                <!-- Delete -->
+                <form action="{{ route('outcomes.destroy', $outcome->OutcomeId) }}"
+                      method="POST" class="d-inline"
+                      onsubmit="return confirm('Are you sure you want to delete this outcome?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            class="btn btn-xs text-white"
+                            style="background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="6" class="text-center text-muted">No outcomes found.</td>
+        </tr>
+    @endforelse
+</tbody>
 
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">No outcomes found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
             </table>
         </div>
     </div>
