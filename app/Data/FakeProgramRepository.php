@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Models\Program;
+use Exception;
 
 class FakeProgramRepository
 {
@@ -38,10 +39,23 @@ class FakeProgramRepository
     public static function create(array $data): Program
     {
         $rows = self::load();
-        $id = empty($rows) ? 1 : max(array_keys($rows)) + 1;
-        $data['ProgramId'] = $id;
 
-        // normalize arrays if passed as comma-separated strings
+        // --- [Rule 1: Required Fields] ---
+        if (empty($data['Name'])) {
+            throw new Exception("Program.Name is required.");
+        }
+        if (empty($data['Description'])) {
+            throw new Exception("Program.Description is required.");
+        }
+
+        // --- [Rule 2: Uniqueness (case-insensitive)] ---
+        foreach ($rows as $existing) {
+            if (strcasecmp($existing['Name'], $data['Name']) === 0) {
+                throw new Exception("Program.Name already exists.");
+            }
+        }
+
+        // Normalize arrays if passed as comma-separated strings
         if (isset($data['FocusAreas']) && is_string($data['FocusAreas'])) {
             $data['FocusAreas'] = array_filter(array_map('trim', explode(',', $data['FocusAreas'])));
         }
@@ -49,8 +63,32 @@ class FakeProgramRepository
             $data['Phases'] = array_filter(array_map('trim', explode(',', $data['Phases'])));
         }
 
+        // --- [Rule 3: National Alignment Validation] ---
+        $validAlignments = ['NDPIII', 'DigitalRoadmap2023_2028', '4IR'];
+
+        if (!empty($data['FocusAreas'])) {
+            $alignment = $data['NationalAlignment'] ?? '';
+            $alignmentValid = false;
+
+            foreach ($validAlignments as $token) {
+                if (stripos($alignment, $token) !== false) {
+                    $alignmentValid = true;
+                    break;
+                }
+            }
+
+            if (!$alignmentValid) {
+                throw new Exception("Program.NationalAlignment must include at least one recognized alignment when FocusAreas are specified.");
+            }
+        }
+
+        // Assign new ID
+        $id = empty($rows) ? 1 : max(array_keys($rows)) + 1;
+        $data['ProgramId'] = $id;
+
         $rows[$id] = $data;
         self::save($rows);
+
         return Program::fromArray($data);
     }
 
@@ -59,6 +97,7 @@ class FakeProgramRepository
         $rows = self::load();
         if (!isset($rows[$id])) return null;
 
+        // Normalize string lists
         if (isset($data['FocusAreas']) && is_string($data['FocusAreas'])) {
             $data['FocusAreas'] = array_filter(array_map('trim', explode(',', $data['FocusAreas'])));
         }
@@ -71,21 +110,31 @@ class FakeProgramRepository
         return Program::fromArray($rows[$id]);
     }
 
+    // --- [Rule 4: Lifecycle Protection] ---
     public static function delete($id): void
     {
         $rows = self::load();
+        if (!isset($rows[$id])) {
+            return;
+        }
+
+        // Prevent deletion if program has associated projects
+        if (class_exists(\App\Data\FakeProjectRepository::class)) {
+            $projects = \App\Data\FakeProjectRepository::forProgram($id);
+            if (!empty($projects)) {
+                throw new Exception("Program has Projects; archive or reassign before delete.");
+            }
+        }
+
         unset($rows[$id]);
         self::save($rows);
     }
 
     /**
-     * Return projects belonging to this program
-     * Uses FakeProjectRepository::forProgram($programId)
-     * @return array of Project arrays or Project objects depending on Project repo implementation
+     * Return projects belonging to this program.
      */
     public static function projects($programId): array
     {
-        // keep loose coupling: call FakeProjectRepository if it exists
         if (class_exists(\App\Data\FakeProjectRepository::class)) {
             return \App\Data\FakeProjectRepository::forProgram($programId);
         }

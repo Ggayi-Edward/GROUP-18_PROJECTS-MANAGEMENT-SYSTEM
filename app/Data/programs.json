@@ -1,14 +1,8 @@
 {
-    "5": {
-        "Name": "Modern Agriculture Program",
-        "Description": "Modernize agriculture to improve yields",
-        "NationalAlignment": "NDP III",
-        "FocusAreas": [
-            "Automation"
-        ],
-        "Phases": [
-            "Prototyping"
-        ],
-        "ProgramId": 5
+    "1": {
+        "Name": "Digital Uganda Vision",
+        "Description": "A national strategy initiative",
+        "NationalAlignment": "NDPIII",
+        "ProgramId": 1
     }
 }
