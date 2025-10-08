@@ -3,12 +3,8 @@
         "Name": "Innovation Lab",
         "Location": "Nairobi",
         "FacilityType": "Research Center",
-        "Capabilities": [
-            "Materials testing"
-        ],
-        "FacilityId": 1,
-        "Description": "research",
-        "PartnerOrganization": "UniPod"
+        "Capabilities": [],
+        "FacilityId": 1
     },
     "2": {
         "Name": "Innovation Lab",
