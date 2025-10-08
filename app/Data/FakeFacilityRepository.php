@@ -69,12 +69,12 @@ class FakeFacilityRepository
     {
         $facilities = self::load();
 
-        // 🧩 Rule 1: Required Fields
+        //  Rule 1: Required Fields
         if (empty($data['Name']) || empty($data['Location']) || empty($data['FacilityType'])) {
             throw new Exception("Facility.Name, Facility.Location, and Facility.FacilityType are required.");
         }
 
-        // 🧩 Rule 2: Uniqueness (Name + Location)
+        //  Rule 2: Uniqueness (Name + Location)
         foreach ($facilities as $facility) {
             if (
                 strcasecmp($facility['Name'], $data['Name']) === 0 &&
@@ -130,7 +130,7 @@ class FakeFacilityRepository
      */
     public static function delete($id): void
     {
-        // 🧩 Rule 3: Deletion Constraints
+        //  Rule 3: Deletion Constraints
         $hasDeps = self::hasDependencies($id);
         if ($hasDeps) {
             throw new Exception("Facility has dependent records (Services/Equipment/Projects).");
