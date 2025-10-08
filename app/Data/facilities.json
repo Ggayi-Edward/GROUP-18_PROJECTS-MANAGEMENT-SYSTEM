@@ -1,13 +1,20 @@
 {
     "1": {
-        "Name": "H&M Laboratory",
-        "Location": "Mukono",
-        "Description": "This facility aids in testing materials.",
-        "PartnerOrganization": "UniPod",
-        "FacilityType": "Laboratory",
+        "Name": "Innovation Lab",
+        "Location": "Nairobi",
+        "FacilityType": "Research Center",
         "Capabilities": [
             "Materials testing"
         ],
-        "FacilityId": 1
+        "FacilityId": 1,
+        "Description": "research",
+        "PartnerOrganization": "UniPod"
+    },
+    "2": {
+        "Name": "Innovation Lab",
+        "Location": "Kampala",
+        "FacilityType": "Tech Hub",
+        "Capabilities": [],
+        "FacilityId": 2
     }
 }
