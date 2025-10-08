@@ -50,7 +50,7 @@
                         <tr>
                             <td>{{ $item->EquipmentId }}</td>
                             <td>{{ $item->Name }}</td>
-                            <td>{{ $item->Capability }}</td>
+                            <td>{{ $item->Capabilities }}</td>
                             <td>{{ $item->FacilityName ?? 'N/A' }}</td>
                             <td class="text-center">
                                 <a href="{{ route('equipment.show', $item->EquipmentId) }}"
